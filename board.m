@@ -441,13 +441,18 @@ static NSInteger sortScores(id o1, id o2, void *context)
     } else {
 #ifdef __APPLE__
         NSAlert *alert = [NSAlert new];
-        NSArray<NSString*> *buttonNames = @[@"New Game", @"Quit", @"Continue"];
+        NSArray<NSString*> *buttonNames =
+        @[
+            NSLocalizedString(@"GSButtonTextNewGame", "Text for buttons that will start a new game"),
+            NSLocalizedString(@"GSButtonTextQuit", "Text for buttons that will exit the application"),
+            NSLocalizedString(@"GSButtonTextContinue", "Text for buttons that leave the game running (as opposed to a new game, or a quit action)")
+        ];
         for (NSString *name in buttonNames)
         {
             [alert addButtonWithTitle:name];
             
         }
-        alert.messageText = @"No more moves possible!";
+        alert.messageText = NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "Message text for an alert notifying the user that no more moves are possible");
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
             switch (returnCode)
             {
@@ -605,6 +610,15 @@ static NSInteger sortScores(id o1, id o2, void *context)
     [self setNeedsDisplay:YES];
 }
 
+- (void)clearScores
+{
+    scores = [[NSMutableArray arrayWithCapacity:1] retain];
+    [defaults setObject:scores forKey:@"scores"];
+    [defaults synchronize];
+    
+    [hallOfFameWindow updateScores];
+}
+
 - (IBAction)showHallOfFameWindow:(id)sender
 {
     if (hallOfFameWindow)
@@ -621,11 +635,20 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (IBAction)clearScores:(id)sender
 {
-    scores = [[NSMutableArray arrayWithCapacity:1] retain];
-    [defaults setObject:scores forKey:@"scores"];
-    [defaults synchronize];
+    NSAlert *confirmationAlert = [NSAlert new];
     
-    [hallOfFameWindow updateScores];
+    confirmationAlert.alertStyle = NSAlertStyleWarning;
+    confirmationAlert.messageText = NSLocalizedString(@"GSClearScoresConfirmation", "Alert text for clearing the high scores");
+    confirmationAlert.informativeText = NSLocalizedString(@"GSClearScoresConfirmationInfoText", "Additional information when prompting for score deletion");
+    [confirmationAlert addButtonWithTitle:NSLocalizedString(@"GSGeneralAlertOK", "The text on an OK button in an alert")];
+    [confirmationAlert addButtonWithTitle:NSLocalizedString(@"GSGeneralAlertCancel", "The text on a Cancel button in an alert")];
+    
+    [confirmationAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn)
+        {
+            [self clearScores];
+        }
+    }];
 }
 
 - (NSArray *)tilesAtX:(int)xpos

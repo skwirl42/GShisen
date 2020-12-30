@@ -52,6 +52,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (NSArray *)tilesAtX:(int)xpos;
 - (NSArray *)tilesAtY:(int)ypos;
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos;
+- (void)clearScores;
 
 - (IBAction)showHallOfFameWindow:(id)sender;
 - (IBAction)simulateWin:(id)sender;

@@ -1,6 +1,6 @@
 /* Localized versions of Info.plist keys */
 
 CFBundleName = "GShisen";
-CFBundleShortVersionString = "GShisen version 1.1";
-CFBundleGetInfoString = "GShisen version 1.1, Copyright (c) 1999, 2000 Free Software Foundation, Inc., portions (c) James Dessart";
-NSHumanReadableCopyright = "Copyright (c) 1999, 2000 Free Software Foundation, Inc. - Portions (c) James Dessart";
+CFBundleShortVersionString = "GShisen version 1.2";
+CFBundleGetInfoString = "GShisen version 1.2, Copyright (c) 1999-2021 Free Software Foundation, Inc., portions (c) James Dessart";
+NSHumanReadableCopyright = "Copyright (c) 1999-2021 Free Software Foundation, Inc. - Portions (c) James Dessart";

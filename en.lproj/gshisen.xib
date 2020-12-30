@@ -90,7 +90,7 @@
                                     <action selector="showHallOfFameWindow:" target="raf-yJ-cFH" id="dXA-cz-lsg"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Clear Scores" id="5CC-mx-qYc">
+                            <menuItem title="Clear Scores…" id="5CC-mx-qYc">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
                                     <action selector="clearScores:" target="raf-yJ-cFH" id="tIi-Vs-G44"/>
@@ -237,7 +237,7 @@
                                                 </subviews>
                                             </clipView>
                                             <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="stq-BA-f6M">
-                                                <rect key="frame" x="1" y="118" width="238" height="16"/>
+                                                <rect key="frame" x="1" y="437" width="254" height="15"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                             </scroller>
                                             <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="t0b-gd-Vfc">
