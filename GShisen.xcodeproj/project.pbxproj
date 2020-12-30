@@ -634,7 +634,6 @@
 				1A878A61259BCFF100B724A0 /* GShisenmacOS */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				1A050895069C59D700416A4F /* GShisen - release-Info.plist */,
 			);
 			name = GShisen;
 			sourceTree = "<group>";
@@ -653,6 +652,7 @@
 				1A878A35259BCD1E00B724A0 /* gshisen.xib */,
 				04156B9DFF8C06E27F000001 /* Icons */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+				1A050895069C59D700416A4F /* GShisen - release-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
