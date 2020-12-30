@@ -389,6 +389,7 @@
 		1AF77C9A259D21FD00A0848C /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF77C9E259D21FD00A0848C /* gshisen.xib */; };
 		1AF77C9B259D21FD00A0848C /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF77C9E259D21FD00A0848C /* gshisen.xib */; };
 		1AF77C9C259D21FD00A0848C /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1AF77C9E259D21FD00A0848C /* gshisen.xib */; };
+		1AF77CA3259D2A7600A0848C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		29B9732CFDCFA39411CA2CEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 /* End PBXBuildFile section */
 
@@ -495,6 +496,7 @@
 		1AF77C91259D1F8400A0848C /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1AF77C95259D20A700A0848C /* en.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = en.lproj; sourceTree = "<group>"; };
 		1AF77C9D259D21FD00A0848C /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/gshisen.xib; sourceTree = "<group>"; };
+		1AF77CA1259D2A4900A0848C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/gshisen.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -664,6 +666,18 @@
 			path = GShisenmacOS;
 			sourceTree = "<group>";
 		};
+		1AF77CA2259D2A5D00A0848C /* Localized */ = {
+			isa = PBXGroup;
+			children = (
+				1AF77C95259D20A700A0848C /* en.lproj */,
+				1AF77C8C259D1F6600A0848C /* Base.lproj */,
+				1AF77C89259D1DF000A0848C /* Localizable.strings */,
+				1AF77C9E259D21FD00A0848C /* gshisen.xib */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Localized;
+			sourceTree = "<group>";
+		};
 		29B97314FDCFA39411CA2CEA /* GShisen */ = {
 			isa = PBXGroup;
 			children = (
@@ -688,15 +702,11 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				1AF77C95259D20A700A0848C /* en.lproj */,
-				1AF77C8C259D1F6600A0848C /* Base.lproj */,
-				1AF77C89259D1DF000A0848C /* Localizable.strings */,
+				1AF77CA2259D2A5D00A0848C /* Localized */,
 				1A47F844259CD3CC00A4FD2F /* GShisen-256.png */,
 				1A47F845259CD3CC00A4FD2F /* GShisen-512.png */,
 				1A47F841259CD34E00A4FD2F /* GShisen-1024.png */,
-				1AF77C9E259D21FD00A0848C /* gshisen.xib */,
 				04156B9DFF8C06E27F000001 /* Icons */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 				1A050895069C59D700416A4F /* GShisen - release-Info.plist */,
 			);
 			name = Resources;
@@ -952,6 +962,7 @@
 				1A878A9C259BD0FF00B724A0 /* 3-2.tiff in Resources */,
 				1A878AC3259BD0FF00B724A0 /* 9-2.tiff in Resources */,
 				1A878A81259BD0FF00B724A0 /* 7-4-h.tiff in Resources */,
+				1AF77CA3259D2A7600A0848C /* InfoPlist.strings in Resources */,
 				1A878ABA259BD0FF00B724A0 /* 4-3-h.tiff in Resources */,
 				1A878ABE259BD0FF00B724A0 /* 2-1-h.tiff in Resources */,
 				1A878AC7259BD0FF00B724A0 /* 5-1-h.tiff in Resources */,
@@ -1145,6 +1156,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				1AF77C9D259D21FD00A0848C /* en */,
+				1AF77CA1259D2A4900A0848C /* Base */,
 			);
 			name = gshisen.xib;
 			sourceTree = "<group>";

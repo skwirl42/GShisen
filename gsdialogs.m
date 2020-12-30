@@ -79,7 +79,7 @@
 #endif
                 // make the button the default button
                 [okbutt setKeyEquivalent:@"\r"];
-	  	[okbutt setTitle: @"OK"];
+	  	[okbutt setTitle:[NSBundle.mainBundle localizedStringForKey:@"GSGeneralAlertOK" value:@"" table:nil]];
 	  	[okbutt setTarget:self];
 	  	[okbutt setAction:@selector(buttonAction:)];		
                 [okbutt setEnabled:YES];
