@@ -1,6 +1,8 @@
 #include "gsdialogs.h"
 #include "gshisen.h"
 
+#import <AppKit/NSFont.h>
+
 @implementation GSDlogView
 
 - (void)drawRect:(NSRect)rect
@@ -116,6 +118,11 @@
 	return [editfield stringValue];
 }
 
+- (void)setEditFieldText:(NSString*)text
+{
+    editfield.stringValue = text;
+}
+
 - (void)buttonAction:(id)sender
 {
 	result = NSAlertFirstButtonReturn;
@@ -130,6 +137,8 @@
 
 - (id)initWithScoreArray:(NSArray *)scores recentScore:(NSDictionary *)score
 {
+    self->scores = [scores mutableCopy];
+    
 	NSDictionary *scoresEntry, *attributes;
 	NSString *userName, *minutes, *seconds, *totTime;
 	NSAttributedString *italicsUserName, *italicsTime;
@@ -148,6 +157,11 @@
 #endif
   	if(self)
 	{
+        if (!scoreFieldData)
+        {
+            scoreFieldData = [NSMutableArray<NSDictionary*> new];
+        }
+        
 		[self setTitle:@"Hall Of Fame"];
 		[self setFrameAutosaveName:@"Hall Of Fame"]; 
 		
@@ -176,7 +190,10 @@
 			minutes = [scoresEntry objectForKey: @"minutes"];
 			seconds = [scoresEntry objectForKey: @"seconds"];
 			totTime = [NSString stringWithFormat:@"%@:%@", minutes, seconds];
-			
+            
+            [scoreFieldData addObject:[NSDictionary dictionaryWithObject:userName forKey:@"Name"]];
+            [scoreFieldData addObject:[NSDictionary dictionaryWithObject:totTime forKey:@"Time"]];
+
  			[scoresMatrix addRow];
 			
 			if( [scoresEntry isEqualToDictionary:score] && !foundScore )
@@ -223,6 +240,99 @@
 {
 	[myView release];
   	[super dealloc];
+}
+
+- (void)awakeFromNib
+{
+    if (!scores)
+    {
+        [self updateScores];
+    }
+}
+
+- (void)updateScores
+{
+    recentScore = nil;
+    [self updateScoresWithRecentScore:nil];
+}
+
+- (void)updateScoresWithRecentScore:(NSDictionary *)score
+{
+    recentScore = score;
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    scores = [[defaults arrayForKey:@"scores"] mutableCopy];
+    
+    if (scoreFieldData)
+    {
+        [scoreFieldData removeAllObjects];
+    }
+    else
+    {
+        scoreFieldData = [NSMutableArray<NSDictionary*> new];
+    }
+    
+    for(int i = 0; i < [scores count]; i++)
+    {
+        NSDictionary *scoresEntry = [scores objectAtIndex: i];
+        NSString *userName = [scoresEntry objectForKey: @"username"];
+        NSString *minutes = [scoresEntry objectForKey: @"minutes"];
+        NSString *seconds = [scoresEntry objectForKey: @"seconds"];
+        NSString *totTime = [NSString stringWithFormat:@"%@:%@", minutes, seconds];
+        
+        NSDictionary *itemDictionary = [NSDictionary dictionaryWithObjects:@[userName, totTime] forKeys:@[@"Name", @"Time"]];
+        [scoreFieldData addObject:itemDictionary];
+    }
+    
+    [scoreTableView reloadData];
+}
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    if (self->scores == nil || self->scores.count == 0)
+    {
+        return 0;
+    }
+    return self->scores.count;
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if (self->scores == nil || self->scores.count == 0)
+    {
+        return nil;
+    }
+    
+    NSDictionary *item = [scoreFieldData objectAtIndex:row];
+    NSString *cellString = [item objectForKey:tableColumn.identifier];
+    
+    return cellString;
+}
+
+- (NSView*)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    NSTableCellView *view = [tableView makeViewWithIdentifier:tableColumn.identifier owner:self];
+    
+    NSDictionary *scoreItem = [scores objectAtIndex:row];
+    NSString *scoreFieldString = [self tableView:tableView objectValueForTableColumn:tableColumn row:row];
+
+    if (recentScore && [scoreItem isEqualToDictionary:recentScore])
+    {
+        NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.25],
+                                                 NSObliquenessAttributeName, nil];
+        NSAttributedString *stringValue = [[NSAttributedString alloc] initWithString:scoreFieldString attributes:attributes];
+        view.textField.attributedStringValue = stringValue;
+    }
+    else
+    {
+        view.textField.stringValue = scoreFieldString;
+    }
+    return view;
+}
+
+- (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    // Not editable, so we'll just do nothing
 }
 
 @end

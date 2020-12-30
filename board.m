@@ -60,19 +60,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
     return self;
 }
 
-- (void)dealloc
-{
-    [tiles release];
-    [iconsNamesRefs release];
-    [timeField release];
-    [scores release];
-    [undoArray release];
-    [super dealloc];
-}
-
 - (void)initialize
 {
-    NSArray *tempArray;
     seconds = 0;
     minutes = 0;
     tiles = nil;
@@ -86,7 +75,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
                                                                   @"9-1", @"9-2", @"9-3", @"9-4", nil];
 
     defaults = [NSUserDefaults standardUserDefaults];
-    tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
+    NSArray *tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
     if(!tempArray) {
         scores = [[NSMutableArray arrayWithCapacity:1] retain];
         [defaults setObject:scores forKey:@"scores"];
@@ -103,6 +92,16 @@ static NSInteger sortScores(id o1, id o2, void *context)
     undoArray = nil;
             
     [self newGame];
+}
+
+- (void)dealloc
+{
+    [tiles release];
+    [iconsNamesRefs release];
+    [timeField release];
+    [scores release];
+    [undoArray release];
+    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -533,9 +532,18 @@ static NSInteger sortScores(id o1, id o2, void *context)
 		dlog = [[GSUserNameDialog alloc] initWithTitle: @"Hall Of Fame"];
 		[dlog center];
 
+        NSString *lastUser = [defaults valueForKey:@"lastUser"];
+        if (lastUser)
+        {
+            [dlog setEditFieldText:lastUser];
+        }
+        
 		[dlog runModal];
 		username = [dlog getEditFieldText];
 		[dlog release];
+        
+        [defaults setValue:username forKey:@"lastUser"];
+        [defaults synchronize];
 		
 		if( !ignoreScore )
 		{
@@ -566,12 +574,22 @@ static NSInteger sortScores(id o1, id o2, void *context)
 			[defaults synchronize];
 		}
 		
-		hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores recentScore: gameData];
+#ifdef __APPLE__
+        hofWin = hallOfFameWindow;
+        [hofWin updateScoresWithRecentScore:gameData];
+#else
+        hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores recentScore: gameData];
+#endif
 	}
 	else
 	{
 		// We didn't make it into the high scores! :(
-		hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores];
+#ifdef __APPLE__
+		hofWin = hallOfFameWindow;
+        [hofWin updateScores];
+#else
+        hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores];
+#endif
 	}
 	
     [hofWin center];
@@ -585,6 +603,29 @@ static NSInteger sortScores(id o1, id o2, void *context)
     ignoreScore = NO;
 
     [self setNeedsDisplay:YES];
+}
+
+- (IBAction)showHallOfFameWindow:(id)sender
+{
+    if (hallOfFameWindow)
+    {
+        [hallOfFameWindow updateScores];
+        [hallOfFameWindow makeKeyAndOrderFront:self];
+    }
+}
+
+- (IBAction)simulateWin:(id)sender
+{
+    [self endOfGame];
+}
+
+- (IBAction)clearScores:(id)sender
+{
+    scores = [[NSMutableArray arrayWithCapacity:1] retain];
+    [defaults setObject:scores forKey:@"scores"];
+    [defaults synchronize];
+    
+    [hallOfFameWindow updateScores];
 }
 
 - (NSArray *)tilesAtX:(int)xpos

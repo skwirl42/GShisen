@@ -16,6 +16,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 
 @interface GSBoard : NSView
 {
+    IBOutlet GSHallOfFameWin *hallOfFameWindow;
 	NSUserDefaults *defaults;
 	NSMutableArray *scores;
 	NSArray<NSString*> *iconsNamesRefs;
@@ -51,6 +52,10 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (NSArray *)tilesAtX:(int)xpos;
 - (NSArray *)tilesAtY:(int)ypos;
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos;
+
+- (IBAction)showHallOfFameWindow:(id)sender;
+- (IBAction)simulateWin:(id)sender;
+- (IBAction)clearScores:(id)sender;
 
 @end
 
