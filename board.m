@@ -24,7 +24,7 @@ static NSInteger randomizeTiles(id o1, id o2, void *context)
 {
     GSTile *t1 = o1;
     GSTile *t2 = o2;
-    return [[t1 rndpos] compare: [t2 rndpos]];
+    return [t1.randomPosition compare: t2.randomPosition];
 }
 
 static NSInteger sortScores(id o1, id o2, void *context)
@@ -131,7 +131,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
      160,                                                              179,
      180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 
      194, 195, 196, 197, 198, 199};
-    t = times(&dummy); 
+    t = times(&dummy);
     srand((int)t);
 
     if(undoArray != nil)
@@ -265,10 +265,10 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (BOOL)findPathBetweenTiles
 {
-    int x1 = [firstTile px];
-    int y1 = [firstTile py];
-    int x2 = [secondTile px];
-    int y2 = [secondTile py];
+    int x1 = firstTile.x;
+    int y1 = firstTile.y;
+    int x2 = secondTile.x;
+    int y2 = secondTile.y;
     int dx[4] = {1, 0, -1, 0};
     int dy[4] = {0, 1, 0, -1};
     int newx, newy, i;
@@ -280,7 +280,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         newx = x1 + dx[i];
         newy = y1 + dy[i];
 
-        while(![[self tileAtxPosition:newx yPosition:newy] isActive] 		
+        while(![self tileAtxPosition:newx yPosition:newy].active
               && newx >= 0 && newx < 20 && newy >= 0 && newy < 10) {
 
             if([self findSimplePathFromX1:newx y1:newy toX2:x2 y2:y2])
@@ -304,13 +304,13 @@ static NSInteger sortScores(id o1, id o2, void *context)
     } else {
         if(!(x1 == x2 || y1 == y2)) {
             tile = [self tileAtxPosition:x2 yPosition:y1];
-            if(![tile isActive] 
+            if(!tile.active
                && [self canMakeLineFromX1:x1 y1:y1 toX2:x2 y2:y1]
                && [self canMakeLineFromX1:x2 y1:y1 toX2:x2 y2:y2]) {
                 r = YES;
             } else {
                 tile = [self tileAtxPosition:x1 yPosition:y2];
-                if(![tile isActive] 
+                if(!tile.active
                    && [self canMakeLineFromX1:x1 y1:y1 toX2:x1 y2:y2]
                    && [self canMakeLineFromX1:x1 y1:y2 toX2:x2 y2:y2]) {
                     r = YES;
@@ -332,7 +332,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         lineOfTiles = [self tilesAtXPosition: x1];
     	for(i = min(y1, y2)+1; i < max(y1, y2); i++) {
             tile = [lineOfTiles objectAtIndex: i];
-            if([tile isActive])
+            if(tile.active)
                 return NO;
         }
         return YES;
@@ -342,7 +342,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         lineOfTiles = [self tilesAtYPosition: y1];
     	for(i = min(x1, x2)+1; i < max(x1, x2); i++) {
             tile = [lineOfTiles objectAtIndex: i];
-            if([tile isActive])
+            if(tile.active)
                 return NO;
         }
         return YES;
@@ -379,7 +379,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     for(i = 0; i < [tiles count]; i++) {
         firstTile = [tiles objectAtIndex: i];
-        if([firstTile isActive]) {
+        if(firstTile.active) {
             found = YES;
             firstTile = nil;
             break;
@@ -399,7 +399,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     for(i = 0; i < [tiles count]; i++) {
         tile = [tiles objectAtIndex: i];
-        if([tile isActive] && [tile isSelect])
+        if(tile.active && tile.selected)
             [tile unselect];
     }
 	
@@ -409,8 +409,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
         for(j = (i + 1); j < [tiles count]; j++) {
 			firstTile = [tiles objectAtIndex: i];
 			secondTile = [tiles objectAtIndex: j];
-			if([firstTile isActive] && [secondTile isActive]) {
-				if([firstTile group] == [secondTile group]) {
+			if(firstTile.active && secondTile.active) {
+				if(firstTile.group == secondTile.group) {
 					if([self findPathBetweenTiles]) {
 						found = YES;
 						break;
@@ -420,8 +420,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
         }
     }
     if(found) {
-        [firstTile hightlight];
-        [secondTile hightlight];
+        [firstTile highlight];
+        [secondTile highlight];
         [[NSRunLoop currentRunLoop] runUntilDate: 
                                         [NSDate dateWithTimeIntervalSinceNow: 2]];
         tile = secondTile;
@@ -584,7 +584,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     tls = [NSMutableArray arrayWithCapacity: 1];
     for(i = 0; i < [tiles count]; i++) {
         tile = [tiles objectAtIndex: i];
-        if([tile px] == xpos)
+        if(tile.x == xpos)
             [tls addObject: tile];
     }
     return tls;
@@ -599,7 +599,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     tls = [NSMutableArray arrayWithCapacity: 1];
     for(i = 0; i < [tiles count]; i++) {
         tile = [tiles objectAtIndex: i];
-        if([tile py] == ypos)
+        if(tile.y == ypos)
             [tls addObject: tile];
     }
     return tls;
@@ -612,7 +612,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     for(i = 0; i < [tiles count]; i++) {
         tile = [tiles objectAtIndex: i];
-        if(([tile px] == xpos) && ([tile py] == ypos))
+        if((tile.x == xpos) && (tile.y == ypos))
             return tile;
     }
     return nil;

@@ -18,7 +18,7 @@ int main(int argc, char** argv)
 	theApp = [NSApplication sharedApplication];
 	[theApp setDelegate: [GShisen sharedshisen]]; 
 #ifdef __APPLE__
-	[NSBundle loadNibNamed:@"gshisen" owner:theApp];
+    [[NSBundle mainBundle] loadNibNamed:@"gshisen" owner:theApp topLevelObjects:nil];
 #endif // __APPLE__
 	createMenu();
 	[theApp run];

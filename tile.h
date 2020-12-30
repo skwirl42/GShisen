@@ -24,17 +24,18 @@
 	  isBorderTile:(BOOL)btile;
 - (void)setPositionOnBoard:(int)x posy:(int)y;	
 - (void)select;
-- (void)hightlight;
+- (void)highlight;
 - (void)unselect;
 - (void)deactivate;
 - (void)activate;
-- (BOOL)isSelect;
-- (BOOL)isActive;
-- (BOOL)isBorderTile;
-- (int)group;
-- (NSNumber *)rndpos;
-- (int)px;
-- (int)py;
+
+@property (readonly) BOOL selected;
+@property (readonly) BOOL active;
+@property (readonly) BOOL isBorderTile;
+@property (readonly) int group;
+@property (readonly) NSNumber *randomPosition;
+@property (readonly) int x;
+@property (readonly) int y;
 
 @end
 

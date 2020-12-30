@@ -17,8 +17,9 @@
 	NSUserDefaults *defaults;
 	NSMutableArray *scores;
 	NSArray *iconsNamesRefs;
-	NSMutableArray *tiles;
-	GSTile *firstTile, *secondTile;
+	NSMutableArray<GSTile*> *tiles;
+    GSTile *firstTile;
+    GSTile *secondTile;
 	NSTextField *timeField;
 	NSTimer *tmr;
 	int seconds, minutes;

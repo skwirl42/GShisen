@@ -3,6 +3,14 @@
 
 @implementation GSTile
 
+@synthesize selected = isSelect;
+@synthesize active = isActive;
+@synthesize isBorderTile = isBorderTile;
+@synthesize group = group;
+@synthesize randomPosition = rndpos;
+@synthesize x = px;
+@synthesize y = py;
+
 - (id)initOnBoard:(GSBoard *)aboard 
           iconRef:(NSString *)ref 
             group:(int)grp
@@ -65,7 +73,7 @@
         [theBoard removeCurrentTiles];
 }
 
-- (void)hightlight
+- (void)highlight
 {
     icon = [NSImage imageNamed: iconSelName];
     [self setNeedsDisplay: YES];
@@ -89,42 +97,6 @@
 {
     isActive = YES;
     [self setNeedsDisplay: YES];
-}
-
-
-- (BOOL)isSelect
-{
-    return isSelect;
-}
-
-- (BOOL)isActive
-{
-    return isActive;
-}
-
-- (BOOL)isBorderTile
-{
-    return isBorderTile;
-}
-
-- (int)group
-{
-    return group;
-}
-
-- (NSNumber *)rndpos
-{
-    return rndpos;
-}
-
-- (int)px
-{
-    return px;
-}
-
-- (int)py
-{
-    return py;
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
