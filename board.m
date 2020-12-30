@@ -803,11 +803,6 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
 }
 
-- (GSGameState)gameState
-{
-    return gameState;
-}
-
 @end
 
 
