@@ -277,6 +277,16 @@
 		1A0508FF069C59F500416A4F /* tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04156B96FF8C06647F000001 /* tile.m */; settings = {ATTRIBUTES = (); }; };
 		1A050900069C59F500416A4F /* tilepair.m in Sources */ = {isa = PBXBuildFile; fileRef = 04156B97FF8C06647F000001 /* tilepair.m */; settings = {ATTRIBUTES = (); }; };
 		1A050902069C59F500416A4F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		1A47F833259CBC9B00A4FD2F /* board.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F82E259CBC9A00A4FD2F /* board.h */; };
+		1A47F834259CBC9B00A4FD2F /* board.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F82E259CBC9A00A4FD2F /* board.h */; };
+		1A47F835259CBC9B00A4FD2F /* tile.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F82F259CBC9A00A4FD2F /* tile.h */; };
+		1A47F836259CBC9B00A4FD2F /* tile.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F82F259CBC9A00A4FD2F /* tile.h */; };
+		1A47F837259CBC9B00A4FD2F /* gsdialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F830259CBC9A00A4FD2F /* gsdialogs.h */; };
+		1A47F838259CBC9B00A4FD2F /* gsdialogs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F830259CBC9A00A4FD2F /* gsdialogs.h */; };
+		1A47F839259CBC9B00A4FD2F /* gshisen.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F831259CBC9B00A4FD2F /* gshisen.h */; };
+		1A47F83A259CBC9B00A4FD2F /* gshisen.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F831259CBC9B00A4FD2F /* gshisen.h */; };
+		1A47F83B259CBC9B00A4FD2F /* tilepair.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F832259CBC9B00A4FD2F /* tilepair.h */; };
+		1A47F83C259CBC9B00A4FD2F /* tilepair.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F832259CBC9B00A4FD2F /* tilepair.h */; };
 		1A878A36259BCD1E00B724A0 /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A35259BCD1E00B724A0 /* gshisen.xib */; };
 		1A878A37259BCD1E00B724A0 /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A35259BCD1E00B724A0 /* gshisen.xib */; };
 		1A878A66259BCFF300B724A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A65259BCFF300B724A0 /* Assets.xcassets */; };
@@ -456,6 +466,11 @@
 		17587328FF379C6511CA2CBB /* GShisen Debug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "GShisen Debug.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A050895069C59D700416A4F /* GShisen - release-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GShisen - release-Info.plist"; path = "/Users/james/repos/fromOdin/GShisen/GShisen - release-Info.plist"; sourceTree = "<absolute>"; };
 		1A050904069C59F500416A4F /* GShisen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A47F82E259CBC9A00A4FD2F /* board.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = board.h; sourceTree = "<group>"; };
+		1A47F82F259CBC9A00A4FD2F /* tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tile.h; sourceTree = "<group>"; };
+		1A47F830259CBC9A00A4FD2F /* gsdialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsdialogs.h; sourceTree = "<group>"; };
+		1A47F831259CBC9B00A4FD2F /* gshisen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gshisen.h; sourceTree = "<group>"; };
+		1A47F832259CBC9B00A4FD2F /* tilepair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilepair.h; sourceTree = "<group>"; };
 		1A878A34259BCBE400B724A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A878A35259BCD1E00B724A0 /* gshisen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = gshisen.xib; sourceTree = "<group>"; };
 		1A878A60259BCFF100B724A0 /* GShisenmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisenmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -580,10 +595,15 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1A47F82E259CBC9A00A4FD2F /* board.h */,
 				04156B93FF8C06647F000001 /* board.m */,
+				1A47F830259CBC9A00A4FD2F /* gsdialogs.h */,
 				04156B94FF8C06647F000001 /* gsdialogs.m */,
+				1A47F831259CBC9B00A4FD2F /* gshisen.h */,
 				04156B95FF8C06647F000001 /* gshisen.m */,
+				1A47F82F259CBC9A00A4FD2F /* tile.h */,
 				04156B96FF8C06647F000001 /* tile.m */,
+				1A47F832259CBC9B00A4FD2F /* tilepair.h */,
 				04156B97FF8C06647F000001 /* tilepair.m */,
 			);
 			name = Classes;
@@ -673,6 +693,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A47F83A259CBC9B00A4FD2F /* gshisen.h in Headers */,
+				1A47F836259CBC9B00A4FD2F /* tile.h in Headers */,
+				1A47F834259CBC9B00A4FD2F /* board.h in Headers */,
+				1A47F83C259CBC9B00A4FD2F /* tilepair.h in Headers */,
+				1A47F838259CBC9B00A4FD2F /* gsdialogs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -680,6 +705,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1A47F839259CBC9B00A4FD2F /* gshisen.h in Headers */,
+				1A47F835259CBC9B00A4FD2F /* tile.h in Headers */,
+				1A47F833259CBC9B00A4FD2F /* board.h in Headers */,
+				1A47F83B259CBC9B00A4FD2F /* tilepair.h in Headers */,
+				1A47F837259CBC9B00A4FD2F /* gsdialogs.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
