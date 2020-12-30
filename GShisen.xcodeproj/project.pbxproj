@@ -287,6 +287,9 @@
 		1A47F83A259CBC9B00A4FD2F /* gshisen.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F831259CBC9B00A4FD2F /* gshisen.h */; };
 		1A47F83B259CBC9B00A4FD2F /* tilepair.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F832259CBC9B00A4FD2F /* tilepair.h */; };
 		1A47F83C259CBC9B00A4FD2F /* tilepair.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A47F832259CBC9B00A4FD2F /* tilepair.h */; };
+		1A47F842259CD34E00A4FD2F /* GShisen-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F841259CD34E00A4FD2F /* GShisen-1024.png */; };
+		1A47F846259CD3CC00A4FD2F /* GShisen-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F844259CD3CC00A4FD2F /* GShisen-256.png */; };
+		1A47F847259CD3CC00A4FD2F /* GShisen-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F845259CD3CC00A4FD2F /* GShisen-512.png */; };
 		1A878A36259BCD1E00B724A0 /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A35259BCD1E00B724A0 /* gshisen.xib */; };
 		1A878A37259BCD1E00B724A0 /* gshisen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A35259BCD1E00B724A0 /* gshisen.xib */; };
 		1A878A66259BCFF300B724A0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A878A65259BCFF300B724A0 /* Assets.xcassets */; };
@@ -471,6 +474,9 @@
 		1A47F830259CBC9A00A4FD2F /* gsdialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsdialogs.h; sourceTree = "<group>"; };
 		1A47F831259CBC9B00A4FD2F /* gshisen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gshisen.h; sourceTree = "<group>"; };
 		1A47F832259CBC9B00A4FD2F /* tilepair.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tilepair.h; sourceTree = "<group>"; };
+		1A47F841259CD34E00A4FD2F /* GShisen-1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GShisen-1024.png"; sourceTree = "<group>"; };
+		1A47F844259CD3CC00A4FD2F /* GShisen-256.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GShisen-256.png"; sourceTree = "<group>"; };
+		1A47F845259CD3CC00A4FD2F /* GShisen-512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GShisen-512.png"; sourceTree = "<group>"; };
 		1A878A34259BCBE400B724A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1A878A35259BCD1E00B724A0 /* gshisen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = gshisen.xib; sourceTree = "<group>"; };
 		1A878A60259BCFF100B724A0 /* GShisenmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisenmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -669,6 +675,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1A47F844259CD3CC00A4FD2F /* GShisen-256.png */,
+				1A47F845259CD3CC00A4FD2F /* GShisen-512.png */,
+				1A47F841259CD34E00A4FD2F /* GShisen-1024.png */,
 				1A878A35259BCD1E00B724A0 /* gshisen.xib */,
 				04156B9DFF8C06E27F000001 /* Icons */,
 				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
@@ -861,6 +870,7 @@
 				1A878AB1259BD0FF00B724A0 /* 7-3-h.tiff in Resources */,
 				1A878AAB259BD0FF00B724A0 /* 2-3.tiff in Resources */,
 				1A878AAE259BD0FF00B724A0 /* 9-4-h.tiff in Resources */,
+				1A47F846259CD3CC00A4FD2F /* GShisen-256.png in Resources */,
 				1A878A96259BD0FF00B724A0 /* 8-4.tiff in Resources */,
 				1A878AD0259BD1D400B724A0 /* GShisen - release-Info.plist in Resources */,
 				1A878AAA259BD0FF00B724A0 /* 6-1.tiff in Resources */,
@@ -870,6 +880,7 @@
 				1A878A8A259BD0FF00B724A0 /* 3-2-h.tiff in Resources */,
 				1A878AAF259BD0FF00B724A0 /* 3-1-h.tiff in Resources */,
 				1A878AC0259BD0FF00B724A0 /* 6-1-h.tiff in Resources */,
+				1A47F847259CD3CC00A4FD2F /* GShisen-512.png in Resources */,
 				1A878AA2259BD0FF00B724A0 /* 5-3.tiff in Resources */,
 				1A878AA0259BD0FF00B724A0 /* 9-4.tiff in Resources */,
 				1A878A84259BD0FF00B724A0 /* 7-4.tiff in Resources */,
@@ -897,6 +908,7 @@
 				1A878AA3259BD0FF00B724A0 /* 2-3-h.tiff in Resources */,
 				1A878AC2259BD0FF00B724A0 /* 8-1.tiff in Resources */,
 				1A878A90259BD0FF00B724A0 /* 2-2-h.tiff in Resources */,
+				1A47F842259CD34E00A4FD2F /* GShisen-1024.png in Resources */,
 				1A878A97259BD0FF00B724A0 /* 6-3.tiff in Resources */,
 				1A878AB3259BD0FF00B724A0 /* x.tiff in Resources */,
 				1A878A93259BD0FF00B724A0 /* 5-3-h.tiff in Resources */,
