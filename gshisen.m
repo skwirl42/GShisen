@@ -29,6 +29,8 @@ static GShisen *sharedshisen = nil;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+    sharedshisen = self;
+#if !defined(__APPLE__)
     unsigned int style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable;
 
     win = [[NSWindow alloc] initWithContentRect: NSMakeRect(0, 0, 740, 490)
@@ -43,6 +45,7 @@ static GShisen *sharedshisen = nil;
     [win center];
     [win display];
     [win orderFront:nil];
+#endif
 }
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)app 
@@ -70,32 +73,25 @@ static GShisen *sharedshisen = nil;
     [board getHint];
 }
 
-- (void)method:menuCell
-{
-
-}
-
 - (void)runInfoPanel:(id)sender
 {
-  NSMutableDictionary *d;
+    NSMutableDictionary *d = [NSMutableDictionary new];
 
-  d = [NSMutableDictionary new];
-  [d setObject: @"GShisen" forKey: @"ApplicationName"];
-  [d setObject: @"The first GNUstep Game!" 
-     forKey: @"ApplicationDescription"];
-  [d setObject: @"GShisen 1.1" forKey: @"ApplicationRelease"];
-  [d setObject: @"Apr 2000" forKey: @"FullVersionID"];
-  [d setObject: [NSArray arrayWithObjects: 
-			   @"James Dessart <james@skwirl.ca>",
-				@" Enrico Sersale <enrico@imago.ro>", nil]
-     forKey: @"Authors"];
-  [d setObject: @"See http://www.imago.ro/gshisen" forKey: @"URL"];
-  [d setObject: @"Copyright (C) 1999, 2000 Free Software Foundation, Inc. - Portions (c) James Dessart"
-     forKey: @"Copyright"];
-  [d setObject: @"Released under the GNU General Public License 2.0"
-     forKey: @"CopyrightDescription"];
+    [d setObject: @"GShisen" forKey: @"ApplicationName"];
+    [d setObject: @"The first GNUstep Game!"
+          forKey: @"ApplicationDescription"];
+    [d setObject: @"GShisen 1.2" forKey: @"ApplicationRelease"];
+    [d setObject: @"Jan 2021" forKey: @"FullVersionID"];
+    [d setObject: [NSArray arrayWithObjects:@"James Dessart <skwirl42@gmail.com>",
+                @"Enrico Sersale <enrico@imago.ro>", nil]
+        forKey: @"Authors"];
+    [d setObject: @"See http://www.imago.ro/gshisen" forKey: @"URL"];
+    [d setObject: @"Copyright (C) 1999-2021 Free Software Foundation, Inc. - Portions (c) James Dessart"
+          forKey: @"Copyright"];
+    [d setObject: @"Released under the GNU General Public License 2.0"
+          forKey: @"CopyrightDescription"];
   
-  //[NSApp orderFrontStandardInfoPanelWithOptions:d];
+    [NSApp orderFrontStandardAboutPanelWithOptions:d];
 }
 
 @end

@@ -43,43 +43,19 @@ static NSInteger sortScores(id o1, id o2, void *context)
     return [[NSNumber numberWithInt: sec1] compare: [NSNumber numberWithInt: sec2]];
 }
 
+@interface GSBoard()
+- (void)initialize;
+@end
+
 @implementation GSBoard
+
+@synthesize gameState = gameState;
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-    NSArray *tempArray;
     self = [super initWithFrame:frameRect];
     if(self) {
-        seconds = 0;
-        minutes = 0;
-        tiles = nil;
-        timeField = nil;
-        tmr = nil;
-        gameState = GSGameStatePaused;
-        iconsNamesRefs = [[NSArray<NSString*> alloc] initWithObjects:@"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
-                                                                      @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
-                                                                      @"5-1", @"5-2", @"5-3", @"5-4", @"6-1", @"6-2", @"6-3", @"6-4",
-                                                                      @"7-1", @"7-2", @"7-3", @"7-4", @"8-1", @"8-2", @"8-3", @"8-4",
-                                                                      @"9-1", @"9-2", @"9-3", @"9-4", nil];
-
-        defaults = [NSUserDefaults standardUserDefaults];
-        tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
-        if(!tempArray) {
-            scores = [[NSMutableArray arrayWithCapacity:1] retain];
-            [defaults setObject:scores forKey:@"scores"];
-        }
-        else {
-            scores = [[NSMutableArray arrayWithCapacity:1] retain];
-            [scores setArray:tempArray];
-            [defaults setObject:scores forKey:@"scores"];
-        }
-        [defaults synchronize];
-                
-        hadEndOfGame = NO;
-        ignoreScore = NO;
-        undoArray = nil;
-                
-        [self newGame];
+        [self initialize];
     }
     return self;
 }
@@ -92,6 +68,46 @@ static NSInteger sortScores(id o1, id o2, void *context)
     [scores release];
     [undoArray release];
     [super dealloc];
+}
+
+- (void)initialize
+{
+    NSArray *tempArray;
+    seconds = 0;
+    minutes = 0;
+    tiles = nil;
+    timeField = nil;
+    timer = nil;
+    gameState = GSGameStatePaused;
+    iconsNamesRefs = [[NSArray<NSString*> alloc] initWithObjects:@"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
+                                                                  @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
+                                                                  @"5-1", @"5-2", @"5-3", @"5-4", @"6-1", @"6-2", @"6-3", @"6-4",
+                                                                  @"7-1", @"7-2", @"7-3", @"7-4", @"8-1", @"8-2", @"8-3", @"8-4",
+                                                                  @"9-1", @"9-2", @"9-3", @"9-4", nil];
+
+    defaults = [NSUserDefaults standardUserDefaults];
+    tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
+    if(!tempArray) {
+        scores = [[NSMutableArray arrayWithCapacity:1] retain];
+        [defaults setObject:scores forKey:@"scores"];
+    }
+    else {
+        scores = [[NSMutableArray arrayWithCapacity:1] retain];
+        [scores setArray:tempArray];
+        [defaults setObject:scores forKey:@"scores"];
+    }
+    [defaults synchronize];
+            
+    hadEndOfGame = NO;
+    ignoreScore = NO;
+    undoArray = nil;
+            
+    [self newGame];
+}
+
+- (void)awakeFromNib
+{
+    [self initialize];
 }
 
 - (void)undo
@@ -111,8 +127,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (void)newGame
 {
-    BOOL bordt;
-    int borderPositions[56] = 
+    int borderPositions[56] =
     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
      20,                                                                39,
      40,                                                                59,
@@ -151,9 +166,9 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
     tmptiles = (NSMutableArray *)[tmptiles sortedArrayUsingFunction:randomizeTiles context:self];
 
-    if(tmr && !hadEndOfGame) {
-        if([tmr isValid])
-            [tmr invalidate];
+    if(timer && !hadEndOfGame) {
+        if([timer isValid])
+            [timer invalidate];
     }
     if(timeField) {
         [timeField removeFromSuperview];
@@ -168,18 +183,19 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
     tiles = [[NSMutableArray alloc] initWithCapacity: 200];
     int p = 0;
+    BOOL isBorderTile;
     for(int i = 0; i < 200; i++) {
-        bordt = NO;
+        isBorderTile = NO;
         for(int j = 0; j < 56; j++) {
             if(i == borderPositions[j]) {
                 tile = [[GSTile alloc] initOnBoard: self 
                                        iconRef: nil group: -1 rndpos: -1 isBorderTile: YES];
                 [tiles addObject: tile];
                 [tile release];
-                bordt = YES;
+                isBorderTile = YES;
             }
         }
-        if(!bordt) {
+        if(!isBorderTile) {
             [tiles addObject: [tmptiles objectAtIndex: p]];
             p++;
         }
@@ -205,7 +221,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     seconds = 0;
     minutes = 0;
 
-    tmr = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
+    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
                    selector:@selector(timestep:) userInfo:nil repeats:YES];
     hadEndOfGame = NO;
     gameState = GSGameStateRunning;
@@ -242,7 +258,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
             return 2;
         }
         else {
-            [firstTile unselect];
+            [firstTile deselect];
             firstTile = clickedTile;
             secondTile = nil;
             return 1;
@@ -250,7 +266,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
     else
     {
-        [firstTile unselect];
+        [firstTile deselect];
         firstTile = clickedTile;
         secondTile = nil;
         return 1;
@@ -396,7 +412,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     for(i = 0; i < [tiles count]; i++) {
         tile = [tiles objectAtIndex: i];
         if(tile.active && tile.selected)
-            [tile unselect];
+            [tile deselect];
     }
 	
     for(i = 0; i < [tiles count]; i++) {
@@ -421,8 +437,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
         [[NSRunLoop currentRunLoop] runUntilDate: 
                                         [NSDate dateWithTimeIntervalSinceNow: 2]];
         tile = secondTile;
-        [firstTile unselect];
-        [tile unselect];									
+        [firstTile deselect];
+        [tile deselect];									
     } else {
 #ifdef __APPLE__
         NSAlert *alert = [NSAlert new];
@@ -482,8 +498,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     hadEndOfGame = YES;
         
-    if([tmr isValid])
-        [tmr invalidate];
+    if([timer isValid])
+        [timer invalidate];
     
 	// First, create a dummy scores entry for checking
 	dummyData = [NSMutableDictionary dictionaryWithCapacity: 3];

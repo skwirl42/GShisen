@@ -148,8 +148,8 @@
 #endif
   	if(self)
 	{
-		[self setTitle:@"Hall Of Fames"];
-		[self setFrameAutosaveName:@"Hall Of Fames"]; 
+		[self setTitle:@"Hall Of Fame"];
+		[self setFrameAutosaveName:@"Hall Of Fame"]; 
 		
 		myView = [[NSView alloc] initWithFrame: self.frame];
 		[self setContentView: myView];

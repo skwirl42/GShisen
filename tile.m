@@ -78,22 +78,24 @@
         icon = [NSImage imageNamed: iconSelName];
         [self setNeedsDisplay: YES];
     }
-    if(result == 2)
+    
+    if(result == 2) {
         [theBoard removeCurrentTiles];
+    }
+}
+
+- (void)deselect
+{
+    isSelect = NO;
+    icon = [NSImage imageNamed: iconName];
+    [self setNeedsDisplay: YES];
+    [theBoard unSetCurrentTiles];
 }
 
 - (void)highlight
 {
     icon = [NSImage imageNamed: iconSelName];
     [self setNeedsDisplay: YES];
-}
-
-- (void)unselect
-{
-    isSelect = NO;
-    icon = [NSImage imageNamed: iconName];
-    [self setNeedsDisplay: YES];
-    [theBoard unSetCurrentTiles];
 }
 
 - (void)deactivate
@@ -110,23 +112,25 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([theBoard gameState] != GSGameStateRunning)
-        return;
-    if(!isActive)
-        return;
-    if(!isSelect)
-        [self select];
-    else
-        [self unselect];
+    if(theBoard.gameState == GSGameStateRunning) {
+        if(!isActive) {
+            return;
+        }
+        
+        if(self.selected)
+        {
+            [self deselect];
+        }
+        else
+        {
+            [self select];
+        }
+    }
 }
 
 - (void)drawRect:(NSRect)rect
 {
-    if(!isActive || ([theBoard gameState] != GSGameStateRunning)) {
-        // This doesn't need to be done, since the board will take care of it.
-        //[[NSColor colorWithCalibratedRed: 0.1 green: 0.47 blue: 0 alpha: 1] set];
-        //NSRectFill(rect);
-    } else {
+    if(self.active && theBoard.gameState == GSGameStateRunning) {
         [icon drawInRect:rect];
     }
 }

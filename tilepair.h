@@ -5,14 +5,13 @@
 
 @interface GSTilePair : NSObject
 {
-    GSTile *fTile1, *fTile2;
+    GSTile *fTile1;
+    GSTile *fTile2;
     
 }
 
 - (GSTilePair *)initWithTile:(GSTile *)tileOne andTile:(GSTile *)tileTwo;
 - (void)activateTiles;
-- (void)release;
-
 
 @end
 

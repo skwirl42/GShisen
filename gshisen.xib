@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="110000" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
-        <customObject id="-3" userLabel="Application"/>
+        <customObject id="-3" userLabel="Application">
+            <connections>
+                <outlet property="delegate" destination="tyD-Sq-Ng0" id="xXX-pK-EwR"/>
+            </connections>
+        </customObject>
         <menu title="gshisen" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
                 <menuItem title="GShisen" id="56">
@@ -15,7 +20,7 @@
                         <items>
                             <menuItem title="About GShisen" id="58">
                                 <connections>
-                                    <action selector="orderFrontStandardAboutPanel:" target="-2" id="142"/>
+                                    <action selector="runInfoPanel:" target="tyD-Sq-Ng0" id="mwT-42-PW7"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
@@ -53,7 +58,58 @@
                         </items>
                     </menu>
                 </menuItem>
+                <menuItem title="Item" id="Fiu-BJ-ktr">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Game" id="c74-l7-GLf">
+                        <items>
+                            <menuItem title="New" keyEquivalent="n" id="SBA-u1-7bb">
+                                <connections>
+                                    <action selector="newGame:" target="tyD-Sq-Ng0" id="tN0-Ji-XJ1"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="gRp-4G-8WO"/>
+                            <menuItem title="Undo" keyEquivalent="z" id="Br7-J0-HZq">
+                                <connections>
+                                    <action selector="undo:" target="tyD-Sq-Ng0" id="xce-eC-1mC"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Get Hint" keyEquivalent="g" id="V46-aU-XPd">
+                                <connections>
+                                    <action selector="getHint:" target="tyD-Sq-Ng0" id="ZZn-pQ-VHK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Pause" keyEquivalent="p" id="8H9-MR-Xoh">
+                                <connections>
+                                    <action selector="pause:" target="tyD-Sq-Ng0" id="gdy-8X-kw9"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="YJn-y2-WhX"/>
+                            <menuItem title="Hall Of Fame" id="t42-OT-pPk">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
             </items>
+            <point key="canvasLocation" x="-338" y="-187"/>
         </menu>
+        <customObject id="tyD-Sq-Ng0" customClass="GShisen">
+            <connections>
+                <outlet property="board" destination="raf-yJ-cFH" id="smN-8v-0WA"/>
+            </connections>
+        </customObject>
+        <window title="GShisen" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="J4N-p5-1sZ">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="249" y="339" width="740" height="490"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1055"/>
+            <value key="minSize" type="size" width="740" height="490"/>
+            <value key="maxSize" type="size" width="740" height="520"/>
+            <view key="contentView" id="raf-yJ-cFH" customClass="GSBoard">
+                <rect key="frame" x="0.0" y="0.0" width="740" height="490"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </view>
+            <point key="canvasLocation" x="-248" y="357"/>
+        </window>
     </objects>
 </document>

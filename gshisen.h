@@ -8,17 +8,16 @@
 @interface GShisen : NSObject<NSApplicationDelegate>
 {
 	NSWindow *win;
-	GSBoard *board;
+	IBOutlet GSBoard *board;
 }
 
 + (GShisen *)sharedshisen;
 
-- (void)method:menuCell;
-- (void)newGame:(id)sender;
-- (void)pause:(id)sender;
-- (void)getHint:(id)sender;
-- (void)undo:(id)sender;
-- (void)runInfoPanel:(id)sender;
+- (IBAction)newGame:(id)sender;
+- (IBAction)pause:(id)sender;
+- (IBAction)getHint:(id)sender;
+- (IBAction)undo:(id)sender;
+- (IBAction)runInfoPanel:(id)sender;
 
 @end
 

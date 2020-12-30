@@ -28,7 +28,7 @@
 - (void)setPositionOnBoard:(int)x posy:(int)y;	
 - (void)select;
 - (void)highlight;
-- (void)unselect;
+- (void)deselect;
 - (void)deactivate;
 - (void)activate;
 

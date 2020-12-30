@@ -11,17 +11,17 @@
 
 - (void)activateTiles
 {
-    [fTile1 unselect];
+    [fTile1 deselect];
     [fTile1 activate];
-    [fTile2 unselect];
+    [fTile2 deselect];
     [fTile2 activate];
 }
 
-- (void)release
+- (void)dealloc
 {
     fTile1 = nil;
     fTile2 = nil;
-    [super release];
+    [super dealloc];
 }
 
 
