@@ -101,7 +101,7 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if([theBoard gameState] != GAME_STATE_RUNNING)
+    if([theBoard gameState] != GSGameStateRunning)
         return;
     if(!isActive)
         return;
@@ -113,7 +113,7 @@
 
 - (void)drawRect:(NSRect)rect
 {
-    if(!isActive || ([theBoard gameState] != GAME_STATE_RUNNING)) {
+    if(!isActive || ([theBoard gameState] != GSGameStateRunning)) {
         // This doesn't need to be done, since the board will take care of it.
         //[[NSColor colorWithCalibratedRed: 0.1 green: 0.47 blue: 0 alpha: 1] set];
         //NSRectFill(rect);

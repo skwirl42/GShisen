@@ -55,7 +55,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         tiles = nil;
         timeField = nil;
         tmr = nil;
-        gameState = GAME_STATE_PAUSED;
+        gameState = GSGameStatePaused;
         iconsNamesRefs = [[NSArray alloc] initWithObjects:
                                           @"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
                                           @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
@@ -212,14 +212,14 @@ static NSInteger sortScores(id o1, id o2, void *context)
     tmr = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
                    selector:@selector(timestep:) userInfo:nil repeats:YES];
     hadEndOfGame = NO;
-    gameState = GAME_STATE_RUNNING;
+    gameState = GSGameStateRunning;
 }
 
 - (void)timestep:(NSTimer *)t
 {
     NSString *timeStr;
 
-    if(gameState == GAME_STATE_RUNNING)
+    if(gameState == GSGameStateRunning)
     {
         seconds++;
         if(seconds == 60) {
@@ -461,10 +461,10 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (void)pause
 {
-    if(gameState == GAME_STATE_PAUSED) {
-        gameState = GAME_STATE_RUNNING;
-    } else if(gameState == GAME_STATE_RUNNING) {
-        gameState = GAME_STATE_PAUSED;
+    if(gameState == GSGameStatePaused) {
+        gameState = GSGameStateRunning;
+    } else if(gameState == GSGameStateRunning) {
+        gameState = GSGameStatePaused;
     }
     [self setNeedsDisplay:YES];
 }
@@ -513,7 +513,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 		finalScores = [tempScores subarrayWithRange: topScoreRange];
 	}
 	
-    gameState = GAME_STATE_PAUSED;
+    gameState = GSGameStatePaused;
 	
 	// Are we in the top ten?
 	if( [finalScores containsObject: dummyData] && !ignoreScore )
@@ -717,7 +717,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     [[NSColor colorWithCalibratedRed: 0.1 green: 0.47 blue: 0 alpha: 1] set];
     NSRectFill(rect);
-    if(gameState == GAME_STATE_PAUSED && !hadEndOfGame) {
+    if(gameState == GSGameStatePaused && !hadEndOfGame) {
         [pauseString drawAtPoint:drawLocation withAttributes:fontDict1];
         [pauseString drawAtPoint:drawLocation2 withAttributes:fontDict2];
     }
@@ -727,7 +727,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
 }
 
-- (int)gameState
+- (GSGameState)gameState
 {
     return gameState;
 }

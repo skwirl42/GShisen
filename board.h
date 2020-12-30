@@ -7,8 +7,10 @@
 #include "gsdialogs.h"
 #include "tilepair.h"
 
-#define	GAME_STATE_RUNNING	1
-#define GAME_STATE_PAUSED	0
+typedef NS_ENUM(NSInteger, GSGameState) {
+    GSGameStatePaused = 0,
+    GSGameStateRunning = 1,
+};
 
 #define MAX_SCORES			15
 
@@ -22,11 +24,12 @@
     GSTile *secondTile;
 	NSTextField *timeField;
 	NSTimer *tmr;
-	int seconds, minutes;
+    NSMutableArray *undoArray;
+    GSGameState gameState;
+    int seconds;
+    int minutes;
     BOOL hadEndOfGame;
     BOOL ignoreScore;
-    NSMutableArray *undoArray;
-    int gameState;
 }
 
 - (id)initWithFrame:(NSRect)frameRect;
@@ -46,7 +49,7 @@
 - (NSArray *)tilesAtXPosition:(int)xpos;
 - (NSArray *)tilesAtYPosition:(int)ypos;
 - (GSTile *)tileAtxPosition:(int)xpos yPosition:(int)ypos;
-- (int)gameState;
+- (GSGameState)gameState;
 
 @end
 
