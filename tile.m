@@ -5,7 +5,6 @@
 
 @synthesize selected = isSelect;
 @synthesize active = isActive;
-@synthesize isBorderTile = isBorderTile;
 @synthesize group = group;
 @synthesize randomPosition = rndpos;
 @synthesize x = px;
@@ -15,12 +14,11 @@
           iconRef:(NSString *)ref 
             group:(int)grp
            rndpos:(int)rnd
-     isBorderTile:(BOOL)btile
+     isBorderTile:(BOOL)isBorderTile
 {
     self = [super init];
     if(self) {
         [self setFrame: NSMakeRect(0, 0, 40, 56)];
-        isBorderTile = btile;
         if(!isBorderTile) {
             theBoard = aboard;
             iconName = [[NSString alloc] initWithFormat:@"%@.tiff", ref];
@@ -31,6 +29,11 @@
             isSelect = NO;
             isActive = YES;
         } else {
+            theBoard = nil;
+            iconName = nil;
+            iconSelName = nil;
+            icon = nil;
+            rndpos = nil;
             isActive = NO;
         }
     }
@@ -39,12 +42,18 @@
 
 - (void)dealloc
 {
-    if(!isBorderTile) {
-        //[icon release];
+    if (iconName){
         [iconName release];
+    }
+    
+    if (iconSelName) {
         [iconSelName release];
+    }
+    
+    if (rndpos) {
         [rndpos release];
     }
+
     [super dealloc];
 }
 

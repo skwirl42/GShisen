@@ -18,13 +18,13 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 {
 	NSUserDefaults *defaults;
 	NSMutableArray *scores;
-	NSArray *iconsNamesRefs;
+	NSArray<NSString*> *iconsNamesRefs;
 	NSMutableArray<GSTile*> *tiles;
     GSTile *firstTile;
     GSTile *secondTile;
 	NSTextField *timeField;
 	NSTimer *tmr;
-    NSMutableArray *undoArray;
+    NSMutableArray<GSTilePair*> *undoArray;
     GSGameState gameState;
     int seconds;
     int minutes;
@@ -46,9 +46,9 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (void)getHint;
 - (void)verifyEndOfGame;
 - (void)endOfGame;
-- (NSArray *)tilesAtXPosition:(int)xpos;
-- (NSArray *)tilesAtYPosition:(int)ypos;
-- (GSTile *)tileAtxPosition:(int)xpos yPosition:(int)ypos;
+- (NSArray *)tilesAtX:(int)xpos;
+- (NSArray *)tilesAtY:(int)ypos;
+- (GSTile *)tileAtX:(int)xpos y:(int)ypos;
 - (GSGameState)gameState;
 
 @end

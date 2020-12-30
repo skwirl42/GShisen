@@ -9,12 +9,15 @@
 @interface GSTile : NSView
 {	
 	NSImage *icon;
-	NSString *iconName, *iconSelName;
+    NSString *iconName;
+    NSString *iconSelName;
 	int group;
 	NSNumber *rndpos;
 	GSBoard *theBoard;
-	BOOL isSelect, isActive, isBorderTile;
-	int px, py;
+    BOOL isSelect;
+    BOOL isActive;
+    int px;
+    int py;
 }
 
 - (id)initOnBoard:(GSBoard *)aboard 
@@ -31,7 +34,6 @@
 
 @property (readonly) BOOL selected;
 @property (readonly) BOOL active;
-@property (readonly) BOOL isBorderTile;
 @property (readonly) int group;
 @property (readonly) NSNumber *randomPosition;
 @property (readonly) int x;

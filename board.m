@@ -56,12 +56,11 @@ static NSInteger sortScores(id o1, id o2, void *context)
         timeField = nil;
         tmr = nil;
         gameState = GSGameStatePaused;
-        iconsNamesRefs = [[NSArray alloc] initWithObjects:
-                                          @"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
-                                          @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
-                                          @"5-1", @"5-2", @"5-3", @"5-4", @"6-1", @"6-2", @"6-3", @"6-4",
-                                          @"7-1", @"7-2", @"7-3", @"7-4", @"8-1", @"8-2", @"8-3", @"8-4",
-                                          @"9-1", @"9-2", @"9-3", @"9-4", nil]; 
+        iconsNamesRefs = [[NSArray<NSString*> alloc] initWithObjects:@"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
+                                                                      @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
+                                                                      @"5-1", @"5-2", @"5-3", @"5-4", @"6-1", @"6-2", @"6-3", @"6-4",
+                                                                      @"7-1", @"7-2", @"7-3", @"7-4", @"8-1", @"8-2", @"8-3", @"8-4",
+                                                                      @"9-1", @"9-2", @"9-3", @"9-4", nil];
 
         defaults = [NSUserDefaults standardUserDefaults];
         tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
@@ -112,12 +111,6 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (void)newGame
 {
-    NSMutableArray *tmptiles;
-    GSTile *tile;
-    NSString *ref;
-    clock_t t;
-    struct tms dummy;
-    int i, j, p;
     BOOL bordt;
     int borderPositions[56] = 
     {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
@@ -131,6 +124,9 @@ static NSInteger sortScores(id o1, id o2, void *context)
      160,                                                              179,
      180, 181, 182, 183, 184, 185, 186, 187, 188, 189, 190, 191, 192, 193, 
      194, 195, 196, 197, 198, 199};
+
+    clock_t t;
+    struct tms dummy;
     t = times(&dummy);
     srand((int)t);
 
@@ -142,12 +138,13 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
     undoArray = [[NSMutableArray alloc] initWithCapacity: 72];
     
-    tmptiles = [NSMutableArray arrayWithCapacity: 144];
-    for(i = 0; i < [iconsNamesRefs count]; i++) {
-        for(j = 0; j < 4; j++) {
-            ref = [iconsNamesRefs objectAtIndex: i];
-            tile = [[GSTile alloc] initOnBoard: self 
-                                   iconRef: ref group: i rndpos: rand() isBorderTile:NO];
+    GSTile *tile;
+    NSMutableArray *tmptiles = [NSMutableArray arrayWithCapacity: 144];
+    for (int i = 0; i < iconsNamesRefs.count; i++) {
+        for(int j = 0; j < 4; j++) {
+            NSString *iconName = [iconsNamesRefs objectAtIndex:i];
+            tile = [[GSTile alloc] initOnBoard: self
+                                   iconRef: iconName group: i rndpos: rand() isBorderTile:NO];
             [tmptiles addObject: tile];
             [tile release];
         }
@@ -164,17 +161,16 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }	
 
     if(tiles) {
-        for(i = 0; i < [tiles count]; i++)
+        for(int i = 0; i < [tiles count]; i++)
             [[tiles objectAtIndex: i] removeFromSuperview];
         [tiles release];
         tiles = nil;
     }
     tiles = [[NSMutableArray alloc] initWithCapacity: 200];
-	
-    p = 0;
-    for(i = 0; i < 200; i++) {
+    int p = 0;
+    for(int i = 0; i < 200; i++) {
         bordt = NO;
-        for(j = 0; j < 56; j++) {
+        for(int j = 0; j < 56; j++) {
             if(i == borderPositions[j]) {
                 tile = [[GSTile alloc] initOnBoard: self 
                                        iconRef: nil group: -1 rndpos: -1 isBorderTile: YES];
@@ -189,7 +185,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         }
     }
 
-    for(i = 0; i < [tiles count]; i++) 
+    for(int i = 0; i < [tiles count]; i++)
         [self addSubview: [tiles objectAtIndex:i]];
 		
     firstTile = nil;
@@ -242,10 +238,10 @@ static NSInteger sortScores(id o1, id o2, void *context)
 	
     if([firstTile group] == [secondTile group])
     {
-        if([self findPathBetweenTiles])	
+        if([self findPathBetweenTiles])	{
             return 2;
-        else
-        {
+        }
+        else {
             [firstTile unselect];
             firstTile = clickedTile;
             secondTile = nil;
@@ -280,7 +276,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
         newx = x1 + dx[i];
         newy = y1 + dy[i];
 
-        while(![self tileAtxPosition:newx yPosition:newy].active
+        while(![self tileAtX:newx y:newy].active
               && newx >= 0 && newx < 20 && newy >= 0 && newy < 10) {
 
             if([self findSimplePathFromX1:newx y1:newy toX2:x2 y2:y2])
@@ -303,13 +299,13 @@ static NSInteger sortScores(id o1, id o2, void *context)
         r = YES;
     } else {
         if(!(x1 == x2 || y1 == y2)) {
-            tile = [self tileAtxPosition:x2 yPosition:y1];
+            tile = [self tileAtX:x2 y:y1];
             if(!tile.active
                && [self canMakeLineFromX1:x1 y1:y1 toX2:x2 y2:y1]
                && [self canMakeLineFromX1:x2 y1:y1 toX2:x2 y2:y2]) {
                 r = YES;
             } else {
-                tile = [self tileAtxPosition:x1 yPosition:y2];
+                tile = [self tileAtX:x1 y:y2];
                 if(!tile.active
                    && [self canMakeLineFromX1:x1 y1:y1 toX2:x1 y2:y2]
                    && [self canMakeLineFromX1:x1 y1:y2 toX2:x2 y2:y2]) {
@@ -329,7 +325,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     int i;
 	
     if(x1 == x2) {
-        lineOfTiles = [self tilesAtXPosition: x1];
+        lineOfTiles = [self tilesAtX: x1];
     	for(i = min(y1, y2)+1; i < max(y1, y2); i++) {
             tile = [lineOfTiles objectAtIndex: i];
             if(tile.active)
@@ -339,7 +335,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
 	
     if(y1 == y2) {
-        lineOfTiles = [self tilesAtYPosition: y1];
+        lineOfTiles = [self tilesAtY: y1];
     	for(i = min(x1, x2)+1; i < max(x1, x2); i++) {
             tile = [lineOfTiles objectAtIndex: i];
             if(tile.active)
@@ -575,7 +571,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     [self setNeedsDisplay:YES];
 }
 
-- (NSArray *)tilesAtXPosition:(int)xpos
+- (NSArray *)tilesAtX:(int)xpos
 {
     NSMutableArray *tls;
     GSTile *tile;
@@ -590,7 +586,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     return tls;
 }
 
-- (NSArray *)tilesAtYPosition:(int)ypos
+- (NSArray *)tilesAtY:(int)ypos
 {
     NSMutableArray *tls;
     GSTile *tile;
@@ -605,7 +601,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
     return tls;
 }
 
-- (GSTile *)tileAtxPosition:(int)xpos yPosition:(int)ypos
+- (GSTile *)tileAtX:(int)xpos y:(int)ypos
 {
     GSTile *tile;
     int i;
