@@ -17,12 +17,26 @@ int main(int argc, char** argv)
 
 	theApp = [NSApplication sharedApplication];
 #ifdef __APPLE__
-    [[NSBundle mainBundle] loadNibNamed:@"gshisen" owner:theApp topLevelObjects:nil];
+    NSArray *topLevelObjects = nil;
+    if ([[NSBundle mainBundle] loadNibNamed:@"gshisen" owner:theApp topLevelObjects:&topLevelObjects])
+    {
+        [topLevelObjects retain];
+    }
+    else
+    {
+        NSLog(@"Couldn't load the main nib.");
+        return -1;
+    }
 #else
     [theApp setDelegate: [GShisen sharedshisen]];
     createMenu();
 #endif // __APPLE__
 	[theApp run];
+    
+#ifdef __APPLE__
+    [topLevelObjects release];
+#endif // __APPLE__
+    
 	[pool release];
 	return 0;
 }

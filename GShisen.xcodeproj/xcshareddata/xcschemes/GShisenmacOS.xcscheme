@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "29B97326FDCFA39411CA2CEA"
-               BuildableName = "GShisen Debug"
-               BlueprintName = "GShisen"
+               BlueprintIdentifier = "1A878A5F259BCFF100B724A0"
+               BuildableName = "GShisenmacOS.app"
+               BlueprintName = "GShisenmacOS"
                ReferencedContainer = "container:GShisen.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -27,15 +27,6 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29B97326FDCFA39411CA2CEA"
-            BuildableName = "GShisen Debug"
-            BlueprintName = "GShisen"
-            ReferencedContainer = "container:GShisen.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
       </Testables>
    </TestAction>
@@ -53,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29B97326FDCFA39411CA2CEA"
-            BuildableName = "GShisen Debug"
-            BlueprintName = "GShisen"
+            BlueprintIdentifier = "1A878A5F259BCFF100B724A0"
+            BuildableName = "GShisenmacOS.app"
+            BlueprintName = "GShisenmacOS"
             ReferencedContainer = "container:GShisen.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -70,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "29B97326FDCFA39411CA2CEA"
-            BuildableName = "GShisen Debug"
-            BlueprintName = "GShisen"
+            BlueprintIdentifier = "1A878A5F259BCFF100B724A0"
+            BuildableName = "GShisenmacOS.app"
+            BlueprintName = "GShisenmacOS"
             ReferencedContainer = "container:GShisen.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
