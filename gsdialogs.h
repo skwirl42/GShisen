@@ -10,9 +10,7 @@
 @interface GSUserNameDialog : NSWindow
 {
 	GSDlogView *dialogView;
-    NSTextField *titlefield;
     NSTextField *editfield;
-	NSButton *okbutt;
 	int result;
 }
 

@@ -1,8 +1,6 @@
 #include "gsdialogs.h"
 #include "gshisen.h"
 
-#import <AppKit/NSFont.h>
-
 @implementation GSDlogView
 
 - (void)drawRect:(NSRect)rect
@@ -53,7 +51,7 @@
 #endif
 		font = [NSFont systemFontOfSize: 18];
 		
-		titlefield = [[NSTextField alloc] initWithFrame: NSMakeRect(10, 95, 200, 20)];
+		NSTextField *titlefield = [[NSTextField alloc] initWithFrame: NSMakeRect(10, 95, 200, 20)];
 		//[titlefield setBackgroundColor:[NSColor lightGrayColor]];
 
 		[titlefield setBezeled:NO];
@@ -69,7 +67,7 @@
                 [editfield setEnabled:YES];
 		[dialogView addSubview: editfield];
 
-	  	okbutt = [[NSButton alloc] initWithFrame: NSMakeRect(170, 10, 60, 25)];
+	  	NSButton *okbutt = [[NSButton alloc] initWithFrame: NSMakeRect(170, 10, 60, 25)];
 #ifndef __APPLE__
 	  	[okbutt setButtonType: NSMomentaryLight];
 #else
@@ -97,9 +95,7 @@
 
 - (void)dealloc
 {
-	[titlefield release];
 	[editfield release];
-	[okbutt release];	
   	[super dealloc];
 }
 

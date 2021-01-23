@@ -534,7 +534,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 	// Are we in the top ten?
 	if( [finalScores containsObject: dummyData] && !ignoreScore )
 	{
-		dlog = [[GSUserNameDialog alloc] initWithTitle: @"Hall Of Fame"];
+		dlog = [[GSUserNameDialog alloc] initWithTitle: NSLocalizedString(@"GSWindowTitleHallOfFame", "Text to be used as a window title for windows involved in Hall of Fame operations")];
 		[dlog center];
 
         NSString *lastUser = [defaults valueForKey:@"lastUser"];
