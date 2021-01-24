@@ -1,4 +1,4 @@
-#include "board.h"
+#include "GSBoard.h"
 #include "gshisen.h"
 #include <sys/times.h>
 
@@ -43,30 +43,22 @@ static NSInteger sortScores(id o1, id o2, void *context)
     return [[NSNumber numberWithInt: sec1] compare: [NSNumber numberWithInt: sec2]];
 }
 
-@interface GSBoard()
-- (void)initialize;
-@end
-
 @implementation GSBoard
 
 @synthesize gameState = gameState;
+@synthesize tiles = tiles;
+@synthesize ignoreScore = ignoreScore;
+@synthesize hadEndOfGame = hadEndOfGame;
+@synthesize minutes = minutes;
+@synthesize seconds = seconds;
+@synthesize endOfGameBlock;
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id)initialize:(id<GSBoardDelegate>)delegate
 {
-    self = [super initWithFrame:frameRect];
-    if(self) {
-        [self initialize];
-    }
-    return self;
-}
-
-- (void)initialize
-{
+    self->delegate = delegate;
     seconds = 0;
     minutes = 0;
     tiles = nil;
-    timeField = nil;
-    timer = nil;
     gameState = GSGameStatePaused;
     iconsNamesRefs = [[NSArray<NSString*> alloc] initWithObjects:@"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
                                                                   @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
@@ -92,21 +84,17 @@ static NSInteger sortScores(id o1, id o2, void *context)
     undoArray = nil;
             
     [self newGame];
+    
+    return self;
 }
 
 - (void)dealloc
 {
     [tiles release];
     [iconsNamesRefs release];
-    [timeField release];
     [scores release];
     [undoArray release];
     [super dealloc];
-}
-
-- (void)awakeFromNib
-{
-    [self initialize];
 }
 
 - (void)undo
@@ -147,10 +135,11 @@ static NSInteger sortScores(id o1, id o2, void *context)
     if(undoArray != nil)
     {
         [undoArray removeAllObjects];
-        [undoArray release];
-        undoArray = nil;
     }
-    undoArray = [[NSMutableArray alloc] initWithCapacity: 72];
+    else
+    {
+        undoArray = [[NSMutableArray alloc] initWithCapacity: 72];
+    }
     
     GSTile *tile;
     NSMutableArray *tmptiles = [NSMutableArray arrayWithCapacity: 144];
@@ -164,15 +153,6 @@ static NSInteger sortScores(id o1, id o2, void *context)
         }
     }
     tmptiles = (NSMutableArray *)[tmptiles sortedArrayUsingFunction:randomizeTiles context:self];
-
-    if(timer && !hadEndOfGame) {
-        if([timer isValid])
-            [timer invalidate];
-    }
-    if(timeField) {
-        [timeField removeFromSuperview];
-        [timeField release];
-    }	
 
     if(tiles) {
         for(int i = 0; i < [tiles count]; i++)
@@ -201,46 +181,16 @@ static NSInteger sortScores(id o1, id o2, void *context)
     }
 
     for(int i = 0; i < [tiles count]; i++)
-        [self addSubview: [tiles objectAtIndex:i]];
+        [delegate addTile: [tiles objectAtIndex:i]];
 		
     firstTile = nil;
     secondTile = nil;	
 	
-    timeField = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 5, 60, 15)];
-    [timeField setFont: [NSFont systemFontOfSize: 10]];
-    [timeField setAlignment:NSTextAlignmentCenter];
-    [timeField setBezeled:NO];
-    [timeField setEditable:NO];
-    [timeField setSelectable:NO];
-    [timeField setStringValue:@"00:00"];
-    [self addSubview: timeField];
-		
-    [self resizeWithOldSuperviewSize: [self frame].size];
-	
     seconds = 0;
     minutes = 0;
 
-    timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self 
-                   selector:@selector(timestep:) userInfo:nil repeats:YES];
     hadEndOfGame = NO;
     gameState = GSGameStateRunning;
-}
-
-- (void)timestep:(NSTimer *)t
-{
-    NSString *timeStr;
-
-    if(gameState == GSGameStateRunning)
-    {
-        seconds++;
-        if(seconds == 60) {
-            seconds = 0;
-            minutes++;
-        }
-    }
-    timeStr = [NSString stringWithFormat:@"%02i:%02i", minutes, seconds];
-    [timeField setStringValue: timeStr];
-    [timeField setNeedsDisplay: YES];
 }
 
 - (int)prepareTilesToRemove:(GSTile *)clickedTile
@@ -430,7 +380,8 @@ static NSInteger sortScores(id o1, id o2, void *context)
 			}
         }
     }
-    if(found) {
+    if(found)
+    {
         [firstTile highlight];
         [secondTile highlight];
         [[NSRunLoop currentRunLoop] runUntilDate: 
@@ -438,41 +389,11 @@ static NSInteger sortScores(id o1, id o2, void *context)
         tile = secondTile;
         [firstTile deselect];
         [tile deselect];									
-    } else {
-#ifdef __APPLE__
-        NSAlert *alert = [NSAlert new];
-        NSArray<NSString*> *buttonNames =
-        @[
-            NSLocalizedString(@"GSButtonTextNewGame", "Text for buttons that will start a new game"),
-            NSLocalizedString(@"GSButtonTextQuit", "Text for buttons that will exit the application"),
-            NSLocalizedString(@"GSButtonTextContinue", "Text for buttons that leave the game running (as opposed to a new game, or a quit action)")
-        ];
-        for (NSString *name in buttonNames)
-        {
-            [alert addButtonWithTitle:name];
-            
-        }
-        alert.messageText = NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "Message text for an alert notifying the user that no more moves are possible");
-        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-            switch (returnCode)
-            {
-                case NSAlertFirstButtonReturn:
-                    [self newGame];
-                    break;
-                    
-                case NSAlertSecondButtonReturn:
-                    [NSApp terminate:self];
-                    break;
-            }
-        }];
-#else
-        NSInteger result = NSRunAlertPanel(nil, @"No more moves possible!", @"New Game", @"Quit", @"Continue");
-        if(result == NSAlertDefaultReturn)
-            [self newGame];
-        else if (result == NSAlertAlternateReturn)
-            [NSApp terminate:self];
-#endif
-     }
+    }
+    else
+    {
+        [delegate displayNoMovesDialog];
+    }
 }
 
 - (void)pause
@@ -482,44 +403,34 @@ static NSInteger sortScores(id o1, id o2, void *context)
     } else if(gameState == GSGameStateRunning) {
         gameState = GSGameStatePaused;
     }
-    [self setNeedsDisplay:YES];
+    [delegate refresh];
 }
 
 - (void)endOfGame
 {
-    GSUserNameDialog *dlog;
-    GSHallOfFameWin *hofWin;
     NSString *username;
-    NSMutableDictionary *gameData = nil;
-    NSMutableDictionary *dummyData = nil;;
-	NSMutableArray *tempScores;
-	NSArray *finalScores;
-    NSString *entry;
-	NSRange topScoreRange;
-
-	topScoreRange.location = 0;
-	topScoreRange.length = MAX_SCORES;
+    NSRange topScoreRange = {0, MAX_SCORES};
 
     hadEndOfGame = YES;
-        
-    if([timer isValid])
-        [timer invalidate];
+            
+    [delegate endOfGameActions];
     
 	// First, create a dummy scores entry for checking
-	dummyData = [NSMutableDictionary dictionaryWithCapacity: 3];
+    NSMutableDictionary *dummyData = [NSMutableDictionary dictionaryWithCapacity: 3];
 	[dummyData setObject: @"dummy" forKey: @"username"];
-	entry = [NSString stringWithFormat: @"%i", minutes];
+	NSString *entry = [NSString stringWithFormat: @"%i", minutes];
 	[dummyData setObject: entry forKey: @"minutes"];
 	entry = [NSString stringWithFormat: @"%02i", seconds];
 	[dummyData setObject: entry forKey: @"seconds"];
 	
 	// create a copy of the scores, adding the dummy entry
-	tempScores = [scores mutableCopy];
+	NSMutableArray *tempScores = [scores mutableCopy];
 	[tempScores addObject: dummyData];
 	
 	// Sort the scores, and only take the top ten
 	[tempScores sortUsingFunction:sortScores context:self];
 	
+    NSArray *finalScores;
 	if( [tempScores count] < MAX_SCORES )
 	{
 		finalScores = [tempScores copy];
@@ -532,20 +443,10 @@ static NSInteger sortScores(id o1, id o2, void *context)
     gameState = GSGameStatePaused;
 	
 	// Are we in the top ten?
+    NSMutableDictionary *gameData = nil;
 	if( [finalScores containsObject: dummyData] && !ignoreScore )
 	{
-		dlog = [[GSUserNameDialog alloc] initWithTitle: NSLocalizedString(@"GSWindowTitleHallOfFame", "Text to be used as a window title for windows involved in Hall of Fame operations")];
-		[dlog center];
-
-        NSString *lastUser = [defaults valueForKey:@"lastUser"];
-        if (lastUser)
-        {
-            [dlog setEditFieldText:lastUser];
-        }
-        
-		[dlog runModal];
-		username = [dlog getEditFieldText];
-		[dlog release];
+        username = [delegate getUsername];
         
         [defaults setValue:username forKey:@"lastUser"];
         [defaults synchronize];
@@ -578,88 +479,34 @@ static NSInteger sortScores(id o1, id o2, void *context)
 			[defaults setObject: scores forKey: @"scores"];
 			[defaults synchronize];
 		}
-		
-#ifdef __APPLE__
-        hofWin = hallOfFameWindow;
-        [hofWin updateScoresWithRecentScore:gameData];
-#else
-        hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores recentScore: gameData];
-#endif
 	}
-	else
-	{
-		// We didn't make it into the high scores! :(
-#ifdef __APPLE__
-		hofWin = hallOfFameWindow;
-        [hofWin updateScores];
-#else
-        hofWin = [[GSHallOfFameWin alloc] initWithScoreArray: scores];
-#endif
-	}
+    
+    [delegate showHallOfFameWithScores:scores latestScore:gameData];
 	
-    [hofWin center];
-    [hofWin display];
-    //[hofWin orderFront:nil];
-    [hofWin makeKeyAndOrderFront:self];
-
     seconds = 0;
     minutes = 0;
 
     ignoreScore = NO;
-
-    [self setNeedsDisplay:YES];
 }
 
 - (void)clearScores
 {
+    if (scores)
+    {
+        [scores autorelease];
+    }
     scores = [[NSMutableArray arrayWithCapacity:1] retain];
     [defaults setObject:scores forKey:@"scores"];
     [defaults synchronize];
     
-    [hallOfFameWindow updateScores];
-}
-
-- (IBAction)showHallOfFameWindow:(id)sender
-{
-    if (hallOfFameWindow)
-    {
-        [hallOfFameWindow updateScores];
-        [hallOfFameWindow makeKeyAndOrderFront:self];
-    }
-}
-
-- (IBAction)simulateWin:(id)sender
-{
-    [self endOfGame];
-}
-
-- (IBAction)clearScores:(id)sender
-{
-    NSAlert *confirmationAlert = [NSAlert new];
-    
-    confirmationAlert.alertStyle = NSAlertStyleWarning;
-    confirmationAlert.messageText = NSLocalizedString(@"GSClearScoresConfirmation", "Alert text for clearing the high scores");
-    confirmationAlert.informativeText = NSLocalizedString(@"GSClearScoresConfirmationInfoText", "Additional information when prompting for score deletion");
-    [confirmationAlert addButtonWithTitle:NSLocalizedString(@"GSGeneralAlertOK", "The text on an OK button in an alert")];
-    [confirmationAlert addButtonWithTitle:NSLocalizedString(@"GSGeneralAlertCancel", "The text on a Cancel button in an alert")];
-    
-    [confirmationAlert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == NSAlertFirstButtonReturn)
-        {
-            [self clearScores];
-        }
-    }];
+    [delegate updateScores];
 }
 
 - (NSArray *)tilesAtX:(int)xpos
 {
-    NSMutableArray *tls;
-    GSTile *tile;
-    int i;
-
-    tls = [NSMutableArray arrayWithCapacity: 1];
-    for(i = 0; i < [tiles count]; i++) {
-        tile = [tiles objectAtIndex: i];
+    NSMutableArray *tls = [NSMutableArray arrayWithCapacity: 1];
+    for(int i = 0; i < [tiles count]; i++) {
+        GSTile *tile = [tiles objectAtIndex: i];
         if(tile.x == xpos)
             [tls addObject: tile];
     }
@@ -668,13 +515,9 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (NSArray *)tilesAtY:(int)ypos
 {
-    NSMutableArray *tls;
-    GSTile *tile;
-    int i;
-
-    tls = [NSMutableArray arrayWithCapacity: 1];
-    for(i = 0; i < [tiles count]; i++) {
-        tile = [tiles objectAtIndex: i];
+    NSMutableArray *tls = [NSMutableArray arrayWithCapacity: 1];
+    for(int i = 0; i < [tiles count]; i++) {
+        GSTile *tile = [tiles objectAtIndex: i];
         if(tile.y == ypos)
             [tls addObject: tile];
     }
@@ -683,124 +526,12 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos
 {
-    GSTile *tile;
-    int i;
-
-    for(i = 0; i < [tiles count]; i++) {
-        tile = [tiles objectAtIndex: i];
+    for(int i = 0; i < [tiles count]; i++) {
+        GSTile *tile = [tiles objectAtIndex: i];
         if((tile.x == xpos) && (tile.y == ypos))
             return tile;
     }
     return nil;
-}
-
-- (void)resizeWithOldSuperviewSize:(NSSize)oldFrameSize
-{
-    GSTile *tile;
-    int i, hcount, vcount, hpos, vpos;
-
-    vpos = [self frame].size.height -10;
-    hpos = -30;
-    hcount = 0;
-    vcount = 0;
-    for(i = 0; i < [tiles count]; i++) {
-        tile = [tiles objectAtIndex: i];
-        [tile setPositionOnBoard: hcount posy: vcount];			  
-        [tile setFrame: NSMakeRect(hpos, vpos, 40, 56)];
-        [self setNeedsDisplayInRect: [tile frame]];
-        hpos += 40;
-        hcount++;
-        if(hcount == 20) {
-            hcount = 0;
-            vcount++;
-            hpos = -30;
-            vpos -= 56;
-        }
-    }
-}
-
-- (BOOL)performKeyEquivalent:(NSEvent *)theEvent
-{
-    NSString *commchar = [theEvent charactersIgnoringModifiers];
-
-    if([commchar isEqualToString: @"n"])
-	{
-        [self newGame];
-        return YES;
-    }
-    if([commchar isEqualToString: @"g"] && !hadEndOfGame)
-	{
-        [self getHint];
-        return YES;
-    }
-    if([commchar isEqualToString: @"z"] && !hadEndOfGame)
-	{
-        [self undo];
-        return YES;
-    }
-#if defined(DEBUG) && DEBUG
-	// end game without saving score
-    if([commchar isEqualToString: @"0"] && !hadEndOfGame)
-	{
-        ignoreScore = YES;
-        [self endOfGame];
-        return YES;
-    }
-	
-	// end game, setting minutes and seconds to 4:30
-	if([commchar isEqualToString: @"`"] && !hadEndOfGame)
-	{
-		minutes = 4;
-		seconds = 30;
-		[self endOfGame];
-		return YES;
-	}
-	
-	// end game, setting minutes and seconds to 10:00
-	if([commchar isEqualToString: @"\\"] && !hadEndOfGame)
-	{
-		minutes = 10;
-		seconds = 0;
-		[self endOfGame];
-		return YES;
-	}
-#endif // DEBUG
-
-    return NO;
-}
-
-- (void)drawRect:(NSRect)rect
-{
-    id font = [NSFont boldSystemFontOfSize:48];
-    NSString *pauseString = @"Paused";
-    NSString *gameOverString = @"Game Over";
-    
-    // arrays for dictionaries
-    NSArray *keyArray = [NSArray arrayWithObjects:NSFontAttributeName, 
-                            NSForegroundColorAttributeName, nil];
-    NSArray *valueArray1 = [NSArray arrayWithObjects:font,
-                            [NSColor colorWithCalibratedRed: 0.09 green: 0.3 blue: 0 alpha: 1], nil];
-    NSArray *valueArray2 = [NSArray arrayWithObjects:font,
-                            [NSColor colorWithCalibratedRed: 0.9 green: 0.9 blue: 1 alpha: 1], nil];
-    
-    // attribute dictionaries
-    NSDictionary *fontDict1 = [NSDictionary dictionaryWithObjects:valueArray1 forKeys:keyArray];
-    NSDictionary *fontDict2 = [NSDictionary dictionaryWithObjects:valueArray2 forKeys:keyArray];
-    
-    // drawing locations
-    NSPoint drawLocation = { 260, 256 };
-    NSPoint drawLocation2 = { 256, 260 };
-
-    [[NSColor colorWithCalibratedRed: 0.1 green: 0.47 blue: 0 alpha: 1] set];
-    NSRectFill(rect);
-    if(gameState == GSGameStatePaused && !hadEndOfGame) {
-        [pauseString drawAtPoint:drawLocation withAttributes:fontDict1];
-        [pauseString drawAtPoint:drawLocation2 withAttributes:fontDict2];
-    }
-    else if(hadEndOfGame) {
-        [gameOverString drawAtPoint:drawLocation withAttributes:fontDict1];
-        [gameOverString drawAtPoint:drawLocation2 withAttributes:fontDict2];
-    }
 }
 
 @end

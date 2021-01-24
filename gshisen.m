@@ -20,16 +20,25 @@ static GShisen *sharedshisen = nil;
     return sharedshisen;
 }
 
+#if !defined(__APPLE__)
 - (void)dealloc
 {
-    [board release];
     [win release];
+
     [super dealloc];
 }
+#endif // !defined(__APPLE__)
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     sharedshisen = self;
+    
+#if defined(DEBUG) && DEBUG
+    self.isDebug = YES;
+#else
+    self.isDebug = NO;
+#endif
+    
 #if !defined(__APPLE__)
     unsigned int style = NSWindowStyleMaskTitled | NSWindowStyleMaskClosable | NSWindowStyleMaskMiniaturizable;
 

@@ -3,9 +3,10 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#include "tile.h"
+#include "GSTile.h"
 #include "gsdialogs.h"
-#include "tilepair.h"
+#include "GSTilePair.h"
+#include "GSBoardDelegate.h"
 
 typedef NS_ENUM(NSInteger, GSGameState) {
     GSGameStatePaused = 0,
@@ -14,17 +15,15 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 
 #define MAX_SCORES			15
 
-@interface GSBoard : NSView
+@interface GSBoard : NSObject
 {
-    IBOutlet GSHallOfFameWin *hallOfFameWindow;
+    id<GSBoardDelegate> delegate;
 	NSUserDefaults *defaults;
 	NSMutableArray *scores;
 	NSArray<NSString*> *iconsNamesRefs;
 	NSMutableArray<GSTile*> *tiles;
     GSTile *firstTile;
     GSTile *secondTile;
-	NSTextField *timeField;
-	NSTimer *timer;
     NSMutableArray<GSTilePair*> *undoArray;
     GSGameState gameState;
     int seconds;
@@ -34,11 +33,16 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 }
 
 @property (readonly) GSGameState gameState;
+@property (strong) NSMutableArray<GSTile*> *tiles;
+@property int minutes;
+@property int seconds;
+@property BOOL ignoreScore;
+@property BOOL hadEndOfGame;
+@property dispatch_block_t endOfGameBlock;
 
-- (id)initWithFrame:(NSRect)frameRect;
+- (id)initialize:(id<GSBoardDelegate>)delegate;
 - (void)newGame;
 - (void)undo;
-- (void)timestep:(NSTimer *)t;
 - (int)prepareTilesToRemove:(GSTile *)clickedTile;
 - (void)removeCurrentTiles;
 - (BOOL)findPathBetweenTiles;
@@ -52,11 +56,8 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (NSArray *)tilesAtX:(int)xpos;
 - (NSArray *)tilesAtY:(int)ypos;
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos;
-- (void)clearScores;
 
-- (IBAction)showHallOfFameWindow:(id)sender;
-- (IBAction)simulateWin:(id)sender;
-- (IBAction)clearScores:(id)sender;
+- (void)clearScores;
 
 @end
 

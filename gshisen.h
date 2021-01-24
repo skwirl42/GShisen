@@ -3,13 +3,18 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#include "board.h"
+#include "GSBoardView.h"
 
 @interface GShisen : NSObject<NSApplicationDelegate>
 {
+#if !defined(__APPLE__)
 	NSWindow *win;
-	IBOutlet GSBoard *board;
+#endif // !defined(__APPLE__)
+    
+	IBOutlet GSBoardView *board;
 }
+
+@property BOOL isDebug;
 
 + (GShisen *)sharedshisen;
 
