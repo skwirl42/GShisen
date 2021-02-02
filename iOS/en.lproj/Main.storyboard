@@ -27,7 +27,7 @@
                                 <color key="shadowColor" name="AccentColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="swipe left to pause" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lQC-6f-XEh">
-                                <rect key="frame" x="518.5" y="745" width="143" height="21"/>
+                                <rect key="frame" x="519" y="745" width="143" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" systemColor="systemGray4Color"/>
                                 <nil key="highlightedColor"/>
@@ -48,6 +48,7 @@
                                 <state key="normal" title="Get Hint"/>
                                 <connections>
                                     <action selector="getHint:" destination="aZm-yZ-pfa" eventType="touchUpInside" id="a91-1Z-NBt"/>
+                                    <action selector="getHint:" destination="dMz-Bp-cRD" eventType="touchUpInside" id="eVE-Gz-XGH"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" layoutMarginsFollowReadableWidth="YES" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2WH-E0-eeH">
@@ -59,6 +60,15 @@
                                     <action selector="undo:" destination="aZm-yZ-pfa" eventType="touchUpInside" id="Er6-c1-tJL"/>
                                 </connections>
                             </button>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Game Over" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rYe-wC-dBQ">
+                                <rect key="frame" x="0.0" y="0.0" width="1180" height="820"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="150"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                                <color key="shadowColor" systemColor="secondaryLabelColor"/>
+                                <size key="shadowOffset" width="6" height="5"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQH-DF-M3h"/>
                         <color key="backgroundColor" systemColor="systemGreenColor"/>
@@ -68,7 +78,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="gameOverField" destination="rYe-wC-dBQ" id="kvg-wu-sFl"/>
+                        <outlet property="getHintButton" destination="A2c-xB-WL4" id="gx8-j3-9se"/>
                         <outlet property="timeField" destination="iDp-XA-2aA" id="8zf-ua-Ayj"/>
+                        <outlet property="undoButton" destination="2WH-E0-eeH" id="CX4-oP-19A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aZm-yZ-pfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

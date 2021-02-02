@@ -47,7 +47,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 @synthesize gameState = gameState;
 @synthesize tiles = tiles;
 @synthesize ignoreScore = ignoreScore;
-@synthesize hadEndOfGame = hadEndOfGame;
+@synthesize hadEndOfGame;
 @synthesize minutes = minutes;
 @synthesize seconds = seconds;
 @synthesize endOfGameBlock;
@@ -103,7 +103,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 
 - (BOOL)canUndo
 {
-    return undoArray.count > 0;
+    return undoArray.count > 0 && !hadEndOfGame;
 }
 
 - (void)undo
@@ -212,7 +212,11 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     seconds = 0;
     minutes = 0;
 
+    [self willChangeValueForKey:@"hadEndOfGame"];
     hadEndOfGame = NO;
+    [self didChangeValueForKey:@"hadEndOfGame"];
+    [self willChangeValueForKey:@"canUndo"];
+    [self didChangeValueForKey:@"canUndo"];
     gameState = GSGameStateRunning;
 }
 
@@ -455,8 +459,12 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     NSString *username;
     NSRange topScoreRange = {0, MAX_SCORES};
 
+    [self willChangeValueForKey:@"hadEndOfGame"];
     hadEndOfGame = YES;
-            
+    [self didChangeValueForKey:@"hadEndOfGame"];
+    [self willChangeValueForKey:@"canUndo"];
+    [self didChangeValueForKey:@"canUndo"];
+
     [delegate endOfGameActions];
     
 	// First, create a dummy scores entry for checking

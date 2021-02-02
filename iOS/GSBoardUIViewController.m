@@ -35,9 +35,11 @@
     
     [self newGame:self];
     
-    [self addObserver:self forKeyPath:@"canUndo" options:NSKeyValueObservingOptionNew context:nil];
-    [self addObserver:self forKeyPath:@"hadEndOfGame" options:NSKeyValueObservingOptionNew context:nil];
+    [board addObserver:self forKeyPath:@"canUndo" options:NSKeyValueObservingOptionNew context:nil];
+    [board addObserver:self forKeyPath:@"hadEndOfGame" options:NSKeyValueObservingOptionNew context:nil];
     undoButton.enabled = NO;
+    undoButton.userInteractionEnabled = NO;
+    gameOverField.hidden = YES;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -45,10 +47,13 @@
     if ([keyPath isEqualToString:@"canUndo"])
     {
         undoButton.enabled = board.canUndo;
+        undoButton.userInteractionEnabled = board.canUndo;
     }
     else if ([keyPath isEqualToString:@"hadEndOfGame"])
     {
-        
+        gameOverField.hidden = NO;
+        getHintButton.enabled = NO;
+        getHintButton.userInteractionEnabled = NO;
     }
 }
 
@@ -81,6 +86,9 @@
     timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self
                    selector:@selector(timestep:) userInfo:nil repeats:YES];
     [self resize];
+    gameOverField.hidden = YES;
+    getHintButton.enabled = YES;
+    getHintButton.userInteractionEnabled = YES;
 }
 
 - (void)timestep:(NSTimer *)t
@@ -131,7 +139,12 @@
 
 - (void)displayNoMovesDialog
 {
-    // TODO
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") message:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"GSButtonTextNewGame", "Text for buttons that will start a new game") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self newGame:self];
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"GSButtonTextContinue", "Text for buttons that leave the game running (as opposed to a new game, or a quit action)") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}]];
+    [self presentViewController:alert animated:YES completion:^{}];
 }
 
 - (void)endOfGameActions

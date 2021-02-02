@@ -15,7 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface GSBoardUIViewController : UIViewController <GSBoardDelegate>
 {
     IBOutlet UILabel *timeField;
+    IBOutlet UILabel *gameOverField;
     IBOutlet UIButton *undoButton;
+    IBOutlet UIButton *getHintButton;
     NSTimer *timer;
     NSUserDefaults *defaults;
 }

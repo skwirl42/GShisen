@@ -14,6 +14,7 @@
     NSArray<NSString*> *pages;
     NSMutableDictionary<NSString*,UIViewController*> *pageViews;
     NSInteger index;
+    NSInteger potentialIndex;
 }
 @end
 
@@ -103,8 +104,17 @@
     NSArray *namesArray = [pendingViewControllers valueForKey:@"restorationIdentifier"];
     if (namesArray.count == 1)
     {
-        [boardController.board setPause:![namesArray.firstObject isEqualToString:pages.firstObject]];
-        index = [pages indexOfObject:namesArray.firstObject];
+        potentialIndex = [pages indexOfObject:namesArray.firstObject];
+    }
+}
+
+- (void)pageViewController:(UIPageViewController *)pageViewController didFinishAnimating:(BOOL)finished previousViewControllers:(NSArray<UIViewController *> *)previousViewControllers transitionCompleted:(BOOL)completed
+{
+    NSArray *namesArray = [previousViewControllers valueForKey:@"restorationIdentifier"];
+    if (namesArray.count == 1 && completed)
+    {
+        [boardController.board setPause:[namesArray.firstObject isEqualToString:pages.firstObject]];
+        index = potentialIndex;
     }
 }
 

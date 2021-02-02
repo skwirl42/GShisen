@@ -27,7 +27,6 @@ typedef NS_ENUM(NSInteger, GSGameState) {
     GSGameState gameState;
     int seconds;
     int minutes;
-    BOOL hadEndOfGame;
     BOOL ignoreScore;
 }
 
