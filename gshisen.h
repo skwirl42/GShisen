@@ -3,7 +3,12 @@
 
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
-#include "GSBoardView.h"
+
+#if TARGET_OS_MAC && !TARGET_OS_IOS
+@class GSBoardView;
+#elif TARGET_OS_IOS
+@class GSBoardUIViewController;
+#endif
 
 @interface GShisen : NSObject<NSApplicationDelegate>
 {

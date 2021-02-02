@@ -15,10 +15,12 @@
 - (NSString*)getUsername;
 - (void)showHallOfFameWithScores:(NSArray*)scores latestScore:(NSDictionary*)gameData;
 - (void)addTile:(GSTile*)tile;
+- (void)removeTile:(GSTile*)tile;
 - (void)refresh;
 - (void)displayNoMovesDialog;
 - (void)updateScores;
 - (void)endOfGameActions;
+- (GSTile*)createTileWithIcon: (NSString*)icon group: (int)group rndpos:(int)randomPosition isBorderTile: (BOOL)isBorderTile;
 
 @end
 

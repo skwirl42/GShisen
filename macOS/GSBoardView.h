@@ -11,6 +11,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class GSHallOfFameWin;
+
 @interface GSBoardView : NSView <GSBoardDelegate>
 {
     IBOutlet GSHallOfFameWin *hallOfFameWindow;

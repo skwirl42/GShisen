@@ -2,9 +2,8 @@
 #define BOARD_H
 
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
+//#import <AppKit/AppKit.h>
 #include "GSTile.h"
-#include "gsdialogs.h"
 #include "GSTilePair.h"
 #include "GSBoardDelegate.h"
 
@@ -38,6 +37,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 @property int seconds;
 @property BOOL ignoreScore;
 @property BOOL hadEndOfGame;
+@property BOOL waitingOnHint;
 @property dispatch_block_t endOfGameBlock;
 
 - (id)initialize:(id<GSBoardDelegate>)delegate;
@@ -50,12 +50,14 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (BOOL)canMakeLineFromX1:(int)x1 y1:(int)y1 toX2:(int)x2 y2:(int)y2;
 - (void)unSetCurrentTiles;
 - (void)pause;
+- (void)setPause:(BOOL)doPause;
 - (void)getHint;
 - (void)verifyEndOfGame;
 - (void)endOfGame;
 - (NSArray *)tilesAtX:(int)xpos;
 - (NSArray *)tilesAtY:(int)ypos;
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos;
+- (BOOL)canUndo;
 
 - (void)clearScores;
 

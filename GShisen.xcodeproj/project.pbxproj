@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A31093D25C4C0CD0060A521 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31093C25C4C0CD0060A521 /* main.m */; };
+		1A31094325C4C1750060A521 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31094225C4C1750060A521 /* AppDelegate.m */; };
 		1A47F842259CD34E00A4FD2F /* GShisen-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F841259CD34E00A4FD2F /* GShisen-1024.png */; };
 		1A47F846259CD3CC00A4FD2F /* GShisen-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F844259CD3CC00A4FD2F /* GShisen-256.png */; };
 		1A47F847259CD3CC00A4FD2F /* GShisen-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F845259CD3CC00A4FD2F /* GShisen-512.png */; };
@@ -97,8 +99,6 @@
 		1A878AC7259BD0FF00B724A0 /* 5-1-h.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 04156BBFFF8C06E27F000001 /* 5-1-h.tiff */; };
 		1A878AC8259BD0FF00B724A0 /* GShisen.icns in Resources */ = {isa = PBXBuildFile; fileRef = 00D2309BFF8C2A407F000001 /* GShisen.icns */; };
 		1A878AC9259BD0FF00B724A0 /* 2-4-h.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 04156BADFF8C06E27F000001 /* 2-4-h.tiff */; };
-		1AB635F325BDB50C00CEE1A5 /* GShisenApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB635E125BDB50B00CEE1A5 /* GShisenApp.swift */; };
-		1AB635F525BDB50C00CEE1A5 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AB635E225BDB50B00CEE1A5 /* ContentView.swift */; };
 		1AB635F725BDB50C00CEE1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB635E325BDB50C00CEE1A5 /* Assets.xcassets */; };
 		1AB635F825BDB50C00CEE1A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1AB635E325BDB50C00CEE1A5 /* Assets.xcassets */; };
 		1AB6360825BDB57500CEE1A5 /* GSBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 04156B93FF8C06647F000001 /* GSBoard.m */; };
@@ -263,6 +263,14 @@
 		1AB636D425BDB94B00CEE1A5 /* 3-4-h.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 04156BB5FF8C06E27F000001 /* 3-4-h.tiff */; };
 		1AB636DA25BDBBD200CEE1A5 /* GSBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */; };
 		1AB636DB25BDBBD200CEE1A5 /* GSBoardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */; };
+		1AB636F625BDE05C00CEE1A5 /* GSBoardUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB636F525BDE05C00CEE1A5 /* GSBoardUIViewController.m */; };
+		1AB6370B25BDEA3F00CEE1A5 /* GSTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6370A25BDEA3F00CEE1A5 /* GSTileView.m */; };
+		1AB6370C25BDEA3F00CEE1A5 /* GSTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6370A25BDEA3F00CEE1A5 /* GSTileView.m */; };
+		1AB6371625BE107500CEE1A5 /* GSTileUIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6371525BE107500CEE1A5 /* GSTileUIView.m */; };
+		1AB6372025BE231900CEE1A5 /* GSTile.m in Sources */ = {isa = PBXBuildFile; fileRef = 04156B96FF8C06647F000001 /* GSTile.m */; };
+		1AB6372425BE232000CEE1A5 /* GSBoard.m in Sources */ = {isa = PBXBuildFile; fileRef = 04156B93FF8C06647F000001 /* GSBoard.m */; };
+		1AB6373825BE4D5D00CEE1A5 /* GSUIPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1AB6373725BE4D5D00CEE1A5 /* GSUIPageController.m */; };
+		1AB6374825BF18D800CEE1A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1AB6374725BF18D800CEE1A5 /* Main.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -348,6 +356,9 @@
 		04156BE7FF8C06E27F000001 /* GShisen.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GShisen.tiff; path = Icons/GShisen.tiff; sourceTree = "<group>"; };
 		04156BE8FF8C06E27F000001 /* x.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = x.tiff; path = Icons/x.tiff; sourceTree = "<group>"; };
 		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1A31093C25C4C0CD0060A521 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		1A31094125C4C1750060A521 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		1A31094225C4C1750060A521 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1A47F82E259CBC9A00A4FD2F /* GSBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSBoard.h; sourceTree = "<group>"; };
 		1A47F82F259CBC9A00A4FD2F /* GSTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTile.h; sourceTree = "<group>"; };
 		1A47F830259CBC9A00A4FD2F /* gsdialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsdialogs.h; sourceTree = "<group>"; };
@@ -363,8 +374,6 @@
 		1A878A60259BCFF100B724A0 /* GShisenmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisenmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A878A65259BCFF300B724A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1A878A6D259BCFF300B724A0 /* GShisenmacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GShisenmacOS.entitlements; sourceTree = "<group>"; };
-		1AB635E125BDB50B00CEE1A5 /* GShisenApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GShisenApp.swift; sourceTree = "<group>"; };
-		1AB635E225BDB50B00CEE1A5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1AB635E325BDB50C00CEE1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AB635E825BDB50C00CEE1A5 /* GShisen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB635EA25BDB50C00CEE1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -375,6 +384,16 @@
 		1AB636D825BDBBD200CEE1A5 /* GSBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSBoardView.h; path = macOS/GSBoardView.h; sourceTree = "<group>"; };
 		1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSBoardView.m; path = macOS/GSBoardView.m; sourceTree = "<group>"; };
 		1AB636DF25BDCFA000CEE1A5 /* GSBoardDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSBoardDelegate.h; sourceTree = "<group>"; };
+		1AB636F425BDE05C00CEE1A5 /* GSBoardUIViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSBoardUIViewController.h; path = iOS/GSBoardUIViewController.h; sourceTree = "<group>"; };
+		1AB636F525BDE05C00CEE1A5 /* GSBoardUIViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSBoardUIViewController.m; path = iOS/GSBoardUIViewController.m; sourceTree = "<group>"; };
+		1AB6370925BDEA3F00CEE1A5 /* GSTileView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSTileView.h; sourceTree = "<group>"; };
+		1AB6370A25BDEA3F00CEE1A5 /* GSTileView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GSTileView.m; sourceTree = "<group>"; };
+		1AB6371025BDEACF00CEE1A5 /* GSTileDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSTileDelegate.h; sourceTree = "<group>"; };
+		1AB6371425BE107500CEE1A5 /* GSTileUIView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSTileUIView.h; path = iOS/GSTileUIView.h; sourceTree = "<group>"; };
+		1AB6371525BE107500CEE1A5 /* GSTileUIView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSTileUIView.m; path = iOS/GSTileUIView.m; sourceTree = "<group>"; };
+		1AB6373625BE4D5D00CEE1A5 /* GSUIPageController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSUIPageController.h; path = iOS/GSUIPageController.h; sourceTree = "<group>"; };
+		1AB6373725BE4D5D00CEE1A5 /* GSUIPageController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSUIPageController.m; path = iOS/GSUIPageController.m; sourceTree = "<group>"; };
+		1AB6374725BF18D800CEE1A5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -492,6 +511,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1AB636F325BDE01C00CEE1A5 /* UIKit */,
+				1AB636F225BDDFF900CEE1A5 /* AppKit */,
 				1A47F82E259CBC9A00A4FD2F /* GSBoard.h */,
 				04156B93FF8C06647F000001 /* GSBoard.m */,
 				1A47F830259CBC9A00A4FD2F /* gsdialogs.h */,
@@ -502,9 +523,8 @@
 				04156B96FF8C06647F000001 /* GSTile.m */,
 				1A47F832259CBC9B00A4FD2F /* GSTilePair.h */,
 				04156B97FF8C06647F000001 /* GSTilePair.m */,
-				1AB636D825BDBBD200CEE1A5 /* GSBoardView.h */,
-				1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */,
 				1AB636DF25BDCFA000CEE1A5 /* GSBoardDelegate.h */,
+				1AB6371025BDEACF00CEE1A5 /* GSTileDelegate.h */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -548,8 +568,6 @@
 		1AB635E025BDB50B00CEE1A5 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				1AB635E125BDB50B00CEE1A5 /* GShisenApp.swift */,
-				1AB635E225BDB50B00CEE1A5 /* ContentView.swift */,
 				1AB635E325BDB50C00CEE1A5 /* Assets.xcassets */,
 			);
 			path = Shared;
@@ -559,6 +577,10 @@
 			isa = PBXGroup;
 			children = (
 				1AB635EA25BDB50C00CEE1A5 /* Info.plist */,
+				1AB6374725BF18D800CEE1A5 /* Main.storyboard */,
+				1A31093C25C4C0CD0060A521 /* main.m */,
+				1A31094125C4C1750060A521 /* AppDelegate.h */,
+				1A31094225C4C1750060A521 /* AppDelegate.m */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -570,6 +592,30 @@
 				1AB635F225BDB50C00CEE1A5 /* macOS.entitlements */,
 			);
 			path = macOS;
+			sourceTree = "<group>";
+		};
+		1AB636F225BDDFF900CEE1A5 /* AppKit */ = {
+			isa = PBXGroup;
+			children = (
+				1AB636D825BDBBD200CEE1A5 /* GSBoardView.h */,
+				1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */,
+				1AB6370925BDEA3F00CEE1A5 /* GSTileView.h */,
+				1AB6370A25BDEA3F00CEE1A5 /* GSTileView.m */,
+			);
+			name = AppKit;
+			sourceTree = "<group>";
+		};
+		1AB636F325BDE01C00CEE1A5 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				1AB636F425BDE05C00CEE1A5 /* GSBoardUIViewController.h */,
+				1AB636F525BDE05C00CEE1A5 /* GSBoardUIViewController.m */,
+				1AB6371425BE107500CEE1A5 /* GSTileUIView.h */,
+				1AB6371525BE107500CEE1A5 /* GSTileUIView.m */,
+				1AB6373625BE4D5D00CEE1A5 /* GSUIPageController.h */,
+				1AB6373725BE4D5D00CEE1A5 /* GSUIPageController.m */,
+			);
+			name = UIKit;
 			sourceTree = "<group>";
 		};
 		1AF77CA2259D2A5D00A0848C /* Localized */ = {
@@ -689,7 +735,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1230;
-				LastUpgradeCheck = 1230;
+				LastUpgradeCheck = 1240;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					1A878A5F259BCFF100B724A0 = {
@@ -866,6 +912,7 @@
 				1AB6365B25BDB94B00CEE1A5 /* 3-2.tiff in Resources */,
 				1AB6363F25BDB94B00CEE1A5 /* 9-1.tiff in Resources */,
 				1AB6368325BDB94B00CEE1A5 /* 3-1-h.tiff in Resources */,
+				1AB6374825BF18D800CEE1A5 /* Main.storyboard in Resources */,
 				1AB6367D25BDB94B00CEE1A5 /* 6-2.tiff in Resources */,
 				1AB6365E25BDB94B00CEE1A5 /* 2-2.tiff in Resources */,
 				1AB6366B25BDB94B00CEE1A5 /* 4-3-h.tiff in Resources */,
@@ -991,6 +1038,7 @@
 			files = (
 				1A878A76259BD01E00B724A0 /* GSBoard.m in Sources */,
 				1A878A73259BD01E00B724A0 /* main.m in Sources */,
+				1AB6370B25BDEA3F00CEE1A5 /* GSTileView.m in Sources */,
 				1A878A78259BD01E00B724A0 /* gsdialogs.m in Sources */,
 				1A878A77259BD01E00B724A0 /* gshisen.m in Sources */,
 				1A878A75259BD01E00B724A0 /* GSTilePair.m in Sources */,
@@ -1003,8 +1051,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1AB635F525BDB50C00CEE1A5 /* ContentView.swift in Sources */,
-				1AB635F325BDB50C00CEE1A5 /* GShisenApp.swift in Sources */,
+				1AB6373825BE4D5D00CEE1A5 /* GSUIPageController.m in Sources */,
+				1AB6372425BE232000CEE1A5 /* GSBoard.m in Sources */,
+				1AB636F625BDE05C00CEE1A5 /* GSBoardUIViewController.m in Sources */,
+				1A31094325C4C1750060A521 /* AppDelegate.m in Sources */,
+				1AB6371625BE107500CEE1A5 /* GSTileUIView.m in Sources */,
+				1AB6372025BE231900CEE1A5 /* GSTile.m in Sources */,
+				1A31093D25C4C0CD0060A521 /* main.m in Sources */,
 				1AB6361825BDB58900CEE1A5 /* GSTilePair.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1015,6 +1068,7 @@
 			files = (
 				1AB6360825BDB57500CEE1A5 /* GSBoard.m in Sources */,
 				1AB6361025BDB57E00CEE1A5 /* gshisen.m in Sources */,
+				1AB6370C25BDEA3F00CEE1A5 /* GSTileView.m in Sources */,
 				1AB6361425BDB58300CEE1A5 /* GSTile.m in Sources */,
 				1AB6361C25BDB58A00CEE1A5 /* GSTilePair.m in Sources */,
 				1AB6362025BDB59300CEE1A5 /* main.m in Sources */,
@@ -1121,6 +1175,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Deployment;
 		};
@@ -1194,6 +1249,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = GShisenmacOS/GShisenmacOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1269,6 +1325,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = GShisenmacOS/GShisenmacOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1337,6 +1394,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = GShisenmacOS/GShisenmacOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1426,6 +1484,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1443,7 +1502,8 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "2,6";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/";
 			};
 			name = Development;
 		};
@@ -1498,6 +1558,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1514,7 +1575,8 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "2,6";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Deployment;
@@ -1570,6 +1632,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1586,7 +1649,8 @@
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "2,6";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Default;
@@ -1627,6 +1691,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1705,6 +1770,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1776,6 +1842,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = macOS/macOS.entitlements;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;

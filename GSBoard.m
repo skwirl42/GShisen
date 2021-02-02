@@ -1,5 +1,4 @@
 #include "GSBoard.h"
-#include "gshisen.h"
 #include <sys/times.h>
 
 #ifndef DEBUG
@@ -27,7 +26,7 @@ static NSInteger randomizeTiles(id o1, id o2, void *context)
     return [t1.randomPosition compare: t2.randomPosition];
 }
 
-static NSInteger sortScores(id o1, id o2, void *context)
+static NSComparisonResult sortScores(id o1, id o2, void *context)
 {
     NSDictionary *d1 = o1;
     NSDictionary *d2 = o2;
@@ -52,6 +51,7 @@ static NSInteger sortScores(id o1, id o2, void *context)
 @synthesize minutes = minutes;
 @synthesize seconds = seconds;
 @synthesize endOfGameBlock;
+@synthesize waitingOnHint;
 
 - (id)initialize:(id<GSBoardDelegate>)delegate
 {
@@ -67,27 +67,30 @@ static NSInteger sortScores(id o1, id o2, void *context)
                                                                   @"9-1", @"9-2", @"9-3", @"9-4", nil];
 
     defaults = [NSUserDefaults standardUserDefaults];
-    NSArray *tempArray = (NSMutableArray *)[[defaults arrayForKey:@"scores"] retain];
+    NSArray *tempArray = [[defaults arrayForKey:@"scores"] mutableCopy];
     if(!tempArray) {
-        scores = [[NSMutableArray arrayWithCapacity:1] retain];
+        scores = [NSMutableArray arrayWithCapacity:1];
         [defaults setObject:scores forKey:@"scores"];
     }
     else {
-        scores = [[NSMutableArray arrayWithCapacity:1] retain];
+        scores = [NSMutableArray arrayWithCapacity:1];
         [scores setArray:tempArray];
         [defaults setObject:scores forKey:@"scores"];
     }
     [defaults synchronize];
+    
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
+    [scores retain];
+#endif
             
     hadEndOfGame = NO;
     ignoreScore = NO;
     undoArray = nil;
-            
-    [self newGame];
     
     return self;
 }
 
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
 - (void)dealloc
 {
     [tiles release];
@@ -96,19 +99,29 @@ static NSInteger sortScores(id o1, id o2, void *context)
     [undoArray release];
     [super dealloc];
 }
+#endif
+
+- (BOOL)canUndo
+{
+    return undoArray.count > 0;
+}
 
 - (void)undo
 {
     GSTilePair *pairToUndo;
     if( [undoArray count] > 0 )
     {
+        [self willChangeValueForKey:@"canUndo"];
         pairToUndo = [undoArray lastObject];
         [pairToUndo activateTiles];
         [undoArray removeObject:pairToUndo];
+        [self didChangeValueForKey:@"canUndo"];
     }
     else
     {
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
         NSBeep();
+#endif
     }
 }
 
@@ -141,47 +154,57 @@ static NSInteger sortScores(id o1, id o2, void *context)
         undoArray = [[NSMutableArray alloc] initWithCapacity: 72];
     }
     
-    GSTile *tile;
     NSMutableArray *tmptiles = [NSMutableArray arrayWithCapacity: 144];
-    for (int i = 0; i < iconsNamesRefs.count; i++) {
-        for(int j = 0; j < 4; j++) {
+    for (int i = 0; i < iconsNamesRefs.count; i++)
+    {
+        for(int j = 0; j < 4; j++)
+        {
             NSString *iconName = [iconsNamesRefs objectAtIndex:i];
-            tile = [[GSTile alloc] initOnBoard: self
-                                   iconRef: iconName group: i rndpos: rand() isBorderTile:NO];
+            GSTile *tile = [delegate createTileWithIcon:iconName group: i rndpos: rand() isBorderTile:NO];
             [tmptiles addObject: tile];
-            [tile release];
         }
     }
-    tmptiles = (NSMutableArray *)[tmptiles sortedArrayUsingFunction:randomizeTiles context:self];
+    tmptiles = (NSMutableArray *)[tmptiles sortedArrayUsingFunction:randomizeTiles context:nil];
 
-    if(tiles) {
-        for(int i = 0; i < [tiles count]; i++)
-            [[tiles objectAtIndex: i] removeFromSuperview];
-        [tiles release];
-        tiles = nil;
+    if(tiles)
+    {
+        for (GSTile *tile in tiles)
+        {
+            [delegate removeTile:tile];
+        }
+            
+        [tiles removeAllObjects];
     }
-    tiles = [[NSMutableArray alloc] initWithCapacity: 200];
+    else
+    {
+        tiles = [[NSMutableArray alloc] initWithCapacity: 200];
+    }
+    
     int p = 0;
     BOOL isBorderTile;
-    for(int i = 0; i < 200; i++) {
+    for(int i = 0; i < 200; i++)
+    {
         isBorderTile = NO;
-        for(int j = 0; j < 56; j++) {
-            if(i == borderPositions[j]) {
-                tile = [[GSTile alloc] initOnBoard: self 
-                                       iconRef: nil group: -1 rndpos: -1 isBorderTile: YES];
-                [tiles addObject: tile];
-                [tile release];
+        for(int j = 0; j < 56; j++)
+        {
+            if(i == borderPositions[j])
+            {
                 isBorderTile = YES;
+                GSTile *tile = [delegate createTileWithIcon:nil group:-1 rndpos:-1 isBorderTile:isBorderTile];
+                [tiles addObject: tile];
             }
         }
-        if(!isBorderTile) {
+        if(!isBorderTile)
+        {
             [tiles addObject: [tmptiles objectAtIndex: p]];
             p++;
         }
     }
 
-    for(int i = 0; i < [tiles count]; i++)
-        [delegate addTile: [tiles objectAtIndex:i]];
+    for (GSTile *tile in tiles)
+    {
+        [delegate addTile: tile];
+    }
 		
     firstTile = nil;
     secondTile = nil;	
@@ -321,7 +344,9 @@ static NSInteger sortScores(id o1, id o2, void *context)
 
     removedPair = [[GSTilePair alloc] initWithTile:firstTile andTile:secondTile];
     
+    [self willChangeValueForKey:@"canUndo"];
     [undoArray addObject:removedPair];
+    [self didChangeValueForKey:@"canUndo"];
     
     [self verifyEndOfGame];
     [self unSetCurrentTiles];
@@ -384,15 +409,34 @@ static NSInteger sortScores(id o1, id o2, void *context)
     {
         [firstTile highlight];
         [secondTile highlight];
+        self.waitingOnHint = YES;
         [[NSRunLoop currentRunLoop] runUntilDate: 
                                         [NSDate dateWithTimeIntervalSinceNow: 2]];
         tile = secondTile;
         [firstTile deselect];
-        [tile deselect];									
+        [tile deselect];
+        self.waitingOnHint = NO;
     }
     else
     {
         [delegate displayNoMovesDialog];
+    }
+}
+
+- (void)setPause:(BOOL)doPause
+{
+    if (hadEndOfGame)
+    {
+        return;
+    }
+    
+    if (doPause && gameState == GSGameStateRunning)
+    {
+        gameState = GSGameStatePaused;
+    }
+    else if (!doPause && gameState == GSGameStatePaused)
+    {
+        gameState = GSGameStateRunning;
     }
 }
 
@@ -423,12 +467,16 @@ static NSInteger sortScores(id o1, id o2, void *context)
 	entry = [NSString stringWithFormat: @"%02i", seconds];
 	[dummyData setObject: entry forKey: @"seconds"];
 	
+    scores = [[defaults objectForKey:@"scores"] mutableCopy];
+    
 	// create a copy of the scores, adding the dummy entry
 	NSMutableArray *tempScores = [scores mutableCopy];
 	[tempScores addObject: dummyData];
 	
 	// Sort the scores, and only take the top ten
-	[tempScores sortUsingFunction:sortScores context:self];
+    [tempScores sortUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        return sortScores(obj1, obj2, nil);
+    }];
 	
     NSArray *finalScores;
 	if( [tempScores count] < MAX_SCORES )
@@ -466,15 +514,21 @@ static NSInteger sortScores(id o1, id o2, void *context)
 			// of that array
 			[scores addObject: gameData];
 			
-			[scores sortUsingFunction:sortScores context:self];
+			[scores sortUsingFunction:sortScores context:nil];
 			
 			if( [scores count] >= MAX_SCORES )
 			{
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
+                NSArray *oldScores = scores;
+#endif
 				finalScores = [scores subarrayWithRange: topScoreRange];
-				[scores release];
 				scores = [finalScores mutableCopy];
+                
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
+                [oldScores release];
 				[scores retain];
-			}
+#endif
+            }
 			
 			[defaults setObject: scores forKey: @"scores"];
 			[defaults synchronize];
@@ -487,19 +541,29 @@ static NSInteger sortScores(id o1, id o2, void *context)
     minutes = 0;
 
     ignoreScore = NO;
+    
+    [delegate refresh];
 }
 
 - (void)clearScores
 {
     if (scores)
     {
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
         [scores autorelease];
+#endif
+        scores = nil;
     }
-    scores = [[NSMutableArray arrayWithCapacity:1] retain];
+
+    scores = [NSMutableArray arrayWithCapacity:1];
     [defaults setObject:scores forKey:@"scores"];
     [defaults synchronize];
     
     [delegate updateScores];
+    
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
+    [scores retain]
+#endif
 }
 
 - (NSArray *)tilesAtX:(int)xpos

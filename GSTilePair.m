@@ -18,12 +18,14 @@
     [fTile2 activate];
 }
 
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
 - (void)dealloc
 {
     fTile1 = nil;
     fTile2 = nil;
+    
     [super dealloc];
 }
-
+#endif // TARGET_OS_MACOS && !TARGET_OS_IOS
 
 @end

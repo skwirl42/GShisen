@@ -2,13 +2,21 @@
 #define TILE_H
 
 #import <Foundation/Foundation.h>
+#import "GSTileDelegate.h"
+
+#if TARGET_OS_MAC && !TARGET_OS_IOS
 #import <AppKit/AppKit.h>
+typedef NSImage ImageType;
+#elif TARGET_OS_IOS
+#import <UIKit/UIKit.h>
+typedef UIImage ImageType;
+#endif
 
 @class GSBoard;
 
-@interface GSTile : NSView
+@interface GSTile : NSObject
 {	
-	NSImage *icon;
+	ImageType *icon;
     NSString *iconName;
     NSString *iconSelName;
 	int group;
@@ -20,11 +28,9 @@
     int py;
 }
 
-- (id)initOnBoard:(GSBoard *)aboard 
-			 iconRef:(NSString *)ref 
-			 	group:(int)grp
-			  rndpos:(int)rnd
-	  isBorderTile:(BOOL)btile;
+@property (weak) id<GSTileDelegate> delegate;
+
+- (id)initOnBoard:(GSBoard *)aboard iconRef:(NSString *)ref group:(int)grp rndpos:(int)rnd isBorderTile:(BOOL)btile delegate:(id<GSTileDelegate>)delegate;
 - (void)setPositionOnBoard:(int)x posy:(int)y;	
 - (void)select;
 - (void)highlight;
@@ -38,6 +44,7 @@
 @property (readonly) NSNumber *randomPosition;
 @property (readonly) int x;
 @property (readonly) int y;
+@property (readonly) ImageType *icon;
 
 @end
 

@@ -6,6 +6,14 @@
 //
 
 #import "GSBoardView.h"
+#import "GSTileView.h"
+#import "gsdialogs.h"
+
+@interface GSBoardView ()
+{
+    NSMutableArray<GSTileView*> *tileViews;
+}
+@end
 
 @implementation GSBoardView
 
@@ -14,14 +22,16 @@
 - (void)awakeFromNib
 {
     defaults = [NSUserDefaults standardUserDefaults];
+    tileViews = [[NSMutableArray<GSTileView*> alloc] init];
     
     self.shisenBoard = [[GSBoard alloc] initialize:self];
     
-    [self newGameActions];
+    [self newGame];
 }
 
 - (void)dealloc
 {
+    [tileViews release];
     [self.shisenBoard release];
     [super dealloc];
 }
@@ -35,16 +45,20 @@
     }
 }
 
-- (void)newGameActions
+- (void)newGame
 {
-    if(timer && !self.shisenBoard.hadEndOfGame) {
+    [self.shisenBoard newGame];
+
+    if(timer && !self.shisenBoard.hadEndOfGame)
+    {
         if([timer isValid])
         {
             [timer invalidate];
             timer = nil;
         }
     }
-    if(timeField) {
+    if(timeField)
+    {
         [timeField removeFromSuperview];
         [timeField release];
     }
@@ -62,6 +76,91 @@
                    selector:@selector(timestep:) userInfo:nil repeats:YES];
     
     [self resizeWithOldSuperviewSize: self.bounds.size];
+}
+
+- (GSTileView*)viewForTile:(GSTile*)tile
+{
+    for (GSTileView *tileView in tileViews)
+    {
+        if (tileView.tile == tile)
+        {
+            return tileView;
+        }
+    }
+    return nil;
+}
+
+- (void)resizeWithOldSuperviewSize:(NSSize)oldFrameSize
+{
+    int hcount = 0;
+    int vcount = 0;
+    int hpos = -30;
+    int vpos = self.frame.size.height -10;
+
+    for (GSTile *tile in shisenBoard.tiles)
+    {
+        GSTileView *view = [self viewForTile:tile];
+        [tile setPositionOnBoard: hcount posy: vcount];
+        [view setFrame: NSMakeRect(hpos, vpos, 40, 56)];
+        [view refresh];
+        [self setNeedsDisplayInRect: view.frame];
+        hpos += 40;
+        hcount++;
+        if(hcount == 20)
+        {
+            hcount = 0;
+            vcount++;
+            hpos = -30;
+            vpos -= 56;
+        }
+    }
+}
+
+- (void)pause
+{
+    if (!self.shisenBoard.hadEndOfGame)
+    {
+        [self.shisenBoard pause];
+        [self setNeedsDisplay:YES];
+    }
+}
+
+- (void)undo
+{
+    [self.shisenBoard undo];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)getHint
+{
+    [self.shisenBoard getHint];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)addTile:(GSTile*)tile
+{
+    for (GSTileView *tileView in tileViews)
+    {
+        if (tileView.tile == tile)
+        {
+            [self addSubview:tileView];
+            break;
+        }
+    }
+}
+
+- (void)removeTile:(GSTile*)tile
+{
+    for (GSTileView *tileView in tileViews)
+    {
+        if (tileView.tile == tile)
+        {
+            [tileView removeFromSuperview];
+            [tileViews removeObject:tileView];
+            [tileView autorelease];
+            break;
+        }
+    }
 }
 
 - (void)timestep:(NSTimer *)t
@@ -112,32 +211,6 @@
             [self.shisenBoard clearScores];
         }
     }];
-}
-
-- (void)resizeWithOldSuperviewSize:(NSSize)oldFrameSize
-{
-    GSTile *tile;
-    int hcount = 0;
-    int vcount = 0;
-    int hpos = -30;
-    int vpos = [self frame].size.height -10;
-
-    for(int i = 0; i < [self.shisenBoard.tiles count]; i++)
-    {
-        tile = [self.shisenBoard.tiles objectAtIndex: i];
-        [tile setPositionOnBoard: hcount posy: vcount];
-        [tile setFrame: NSMakeRect(hpos, vpos, 40, 56)];
-        [self setNeedsDisplayInRect: [tile frame]];
-        hpos += 40;
-        hcount++;
-        if(hcount == 20)
-        {
-            hcount = 0;
-            vcount++;
-            hpos = -30;
-            vpos -= 56;
-        }
-    }
 }
 
 #if !defined(__APPLE__)
@@ -196,8 +269,6 @@
 - (void)drawRect:(NSRect)rect
 {
     id font = [NSFont boldSystemFontOfSize:48];
-    NSString *pauseString = @"Paused";
-    NSString *gameOverString = @"Game Over";
     
     // arrays for dictionaries
     NSArray *keyArray = [NSArray arrayWithObjects:NSFontAttributeName,
@@ -217,6 +288,9 @@
 
     [[NSColor colorWithCalibratedRed: 0.1 green: 0.47 blue: 0 alpha: 1] set];
     NSRectFill(rect);
+    
+    NSString *pauseString = NSLocalizedString(@"GSPaused", "String to show when paused");
+    NSString *gameOverString = NSLocalizedString(@"GSGameOver", "String to show when no game is being played");
     if(self.shisenBoard.gameState == GSGameStatePaused && !self.shisenBoard.hadEndOfGame) {
         [pauseString drawAtPoint:drawLocation withAttributes:fontDict1];
         [pauseString drawAtPoint:drawLocation2 withAttributes:fontDict2];
@@ -225,38 +299,6 @@
         [gameOverString drawAtPoint:drawLocation withAttributes:fontDict1];
         [gameOverString drawAtPoint:drawLocation2 withAttributes:fontDict2];
     }
-}
-
-- (void)newGame
-{
-    [self.shisenBoard newGame];
-    [self newGameActions];
-}
-
-- (void)pause
-{
-    if (!self.shisenBoard.hadEndOfGame)
-    {
-        [self.shisenBoard pause];
-        [self setNeedsDisplay:YES];
-    }
-}
-
-- (void)undo
-{
-    [self.shisenBoard undo];
-    [self setNeedsDisplay:YES];
-}
-
-- (void)getHint
-{
-    [self.shisenBoard getHint];
-    [self setNeedsDisplay:YES];
-}
-
-- (void)addTile:(GSTile*)tile
-{
-    [self addSubview:tile];
 }
 
 - (void)displayNoMovesDialog
@@ -345,6 +387,14 @@
 - (void)updateScores
 {
     [hallOfFameWindow updateScores];
+}
+
+- (GSTile*)createTileWithIcon: (NSString*)icon group: (int)group rndpos:(int)randomPosition isBorderTile: (BOOL)isBorderTile
+{
+    GSTileView *view = [[GSTileView alloc] initOnBoard:self.shisenBoard iconRef:icon group:group rndpos:randomPosition isBorderTile:isBorderTile];
+    [tileViews addObject:view];
+    
+    return view.tile;
 }
 
 @end

@@ -9,21 +9,25 @@
 @synthesize randomPosition = rndpos;
 @synthesize x = px;
 @synthesize y = py;
+@synthesize delegate;
+@synthesize icon = icon;
 
 - (id)initOnBoard:(GSBoard *)aboard 
           iconRef:(NSString *)ref 
             group:(int)grp
            rndpos:(int)rnd
      isBorderTile:(BOOL)isBorderTile
+         delegate:(id<GSTileDelegate>)delegate
 {
     self = [super init];
     if(self) {
-        [self setFrame: NSMakeRect(0, 0, 40, 56)];
+        self.delegate = delegate;
+        [delegate setSuggestedContentSize:CGSizeMake(40, 56)];
         if(!isBorderTile) {
             theBoard = aboard;
             iconName = [[NSString alloc] initWithFormat:@"%@.tiff", ref];
             iconSelName = [[NSString alloc] initWithFormat:@"%@-h.tiff", ref];
-            icon = [NSImage imageNamed: iconName];
+            icon = [ImageType imageNamed: iconName];
             group = grp;
             rndpos = [[NSNumber alloc] initWithInt: rnd];
             isSelect = NO;
@@ -40,6 +44,7 @@
     return self;
 }
 
+#if TARGET_OS_MACOS && !TARGET_OS_IOS
 - (void)dealloc
 {
     if (iconName){
@@ -56,16 +61,13 @@
 
     [super dealloc];
 }
-
-- (BOOL)acceptsFirstMouse:(NSEvent *)theEvent
-{
-    return YES;
-}
+#endif
 
 - (void)setPositionOnBoard:(int)x posy:(int)y
 {
     px = x;
     py = y;
+    [delegate setPositionX:x y:y];
 }
 
 - (void)select
@@ -75,8 +77,8 @@
         return;
     } else {
         isSelect = YES;
-        icon = [NSImage imageNamed: iconSelName];
-        [self setNeedsDisplay: YES];
+        icon = [ImageType imageNamed: iconSelName];
+        [delegate refresh];
     }
     
     if(result == 2) {
@@ -87,52 +89,27 @@
 - (void)deselect
 {
     isSelect = NO;
-    icon = [NSImage imageNamed: iconName];
-    [self setNeedsDisplay: YES];
+    icon = [ImageType imageNamed: iconName];
+    [delegate refresh];
     [theBoard unSetCurrentTiles];
 }
 
 - (void)highlight
 {
-    icon = [NSImage imageNamed: iconSelName];
-    [self setNeedsDisplay: YES];
+    icon = [ImageType imageNamed: iconSelName];
+    [delegate refresh];
 }
 
 - (void)deactivate
 {
     isActive = NO;
-    [self setNeedsDisplay: YES];
+    [delegate refresh];
 }
 
 - (void)activate
 {
     isActive = YES;
-    [self setNeedsDisplay: YES];
-}
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    if(theBoard.gameState == GSGameStateRunning) {
-        if(!isActive) {
-            return;
-        }
-        
-        if(self.selected)
-        {
-            [self deselect];
-        }
-        else
-        {
-            [self select];
-        }
-    }
-}
-
-- (void)drawRect:(NSRect)rect
-{
-    if(self.active && theBoard.gameState == GSGameStateRunning) {
-        [icon drawInRect:rect];
-    }
+    [delegate refresh];
 }
 
 @end

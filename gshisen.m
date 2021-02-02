@@ -1,5 +1,11 @@
 #include "gshisen.h"
 
+#if TARGET_OS_MAC && !TARGET_OS_IOS
+#import "GSBoardView.h"
+#elif TARGET_OS_IOS
+#import "GSBoardUIViewController.h"
+#endif
+
 static GShisen *sharedshisen = nil;
 
 @implementation GShisen
