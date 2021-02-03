@@ -338,7 +338,7 @@
 #endif
 }
 
-- (NSString *)getUsername
+- (void)getUsername:(void (^)(NSString *))usernameCallback
 {
     GSUserNameDialog *dlog = [[GSUserNameDialog alloc] initWithTitle: NSLocalizedString(@"GSWindowTitleHallOfFame", "Text to be used as a window title for windows involved in Hall of Fame operations")];
     [dlog center];
@@ -352,7 +352,7 @@
     [dlog runModal];
     NSString *username = [dlog getEditFieldText];
     [dlog release];
-    return username;
+    usernameCallback(username);
 }
 
 - (void)refresh

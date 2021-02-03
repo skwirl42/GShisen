@@ -42,6 +42,12 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     return [[NSNumber numberWithInt: sec1] compare: [NSNumber numberWithInt: sec2]];
 }
 
+@interface GSBoard (Private)
+- (BOOL)findPathBetweenTile:(GSTile*)firstTile andTile:(GSTile*)secondTile;
+- (BOOL)findSimplePathFromX1:(int)x1 y1:(int)y1 toX2:(int)x2 y2:(int)y2;
+- (BOOL)canMakeLineFromX1:(int)x1 y1:(int)y1 toX2:(int)x2 y2:(int)y2;
+@end
+
 @implementation GSBoard
 
 @synthesize gameState = gameState;
@@ -52,6 +58,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 @synthesize seconds = seconds;
 @synthesize endOfGameBlock;
 @synthesize waitingOnHint;
+@synthesize scores = scores;
 
 - (id)initialize:(id<GSBoardDelegate>)delegate
 {
@@ -230,7 +237,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 	
     if([firstTile group] == [secondTile group])
     {
-        if([self findPathBetweenTiles])	{
+        if([self findPathBetweenTile:firstTile andTile:secondTile])	{
             return 2;
         }
         else {
@@ -251,12 +258,12 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     return 0;
 }
 
-- (BOOL)findPathBetweenTiles
+- (BOOL)findPathBetweenTile:(GSTile*)tileA andTile:(GSTile*)tileB
 {
-    int x1 = firstTile.x;
-    int y1 = firstTile.y;
-    int x2 = secondTile.x;
-    int y2 = secondTile.y;
+    int x1 = tileA.x;
+    int y1 = tileA.y;
+    int x2 = tileB.x;
+    int y2 = tileB.y;
     int dx[4] = {1, 0, -1, 0};
     int dy[4] = {0, 1, 0, -1};
     int newx, newy, i;
@@ -354,6 +361,13 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     
     [self verifyEndOfGame];
     [self unSetCurrentTiles];
+    
+    // Check if a move can be made each time a move is made,
+    // so we can notify the user that they're chasing ghosts
+    if (![self searchForValidTilePathAndChangeSelection:NO])
+    {
+        [self->delegate displayNoMovesDialog];
+    }
 }
 
 - (void)unSetCurrentTiles
@@ -381,42 +395,55 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     }
 }
 
-- (void)getHint
+- (BOOL)searchForValidTilePathAndChangeSelection:(BOOL)changeSelection
 {
     GSTile *tile;
-    NSInteger i, j;
-    BOOL found = NO;
 
-    for(i = 0; i < [tiles count]; i++) {
-        tile = [tiles objectAtIndex: i];
-        if(tile.active && tile.selected)
-            [tile deselect];
-    }
-	
-    for(i = 0; i < [tiles count]; i++) {
-        if(found)
-            break;
-        for(j = (i + 1); j < [tiles count]; j++) {
-			firstTile = [tiles objectAtIndex: i];
-			secondTile = [tiles objectAtIndex: j];
-			if(firstTile.active && secondTile.active) {
-				if(firstTile.group == secondTile.group) {
-					if([self findPathBetweenTiles]) {
-						found = YES;
-						break;
-					}
-				}
-			}
+    if (changeSelection)
+    {
+        for(int i = 0; i < [tiles count]; i++)
+        {
+            tile = [tiles objectAtIndex: i];
+            if(changeSelection && tile.active && tile.selected)
+            {
+                [tile deselect];
+            }
         }
     }
-    if(found)
+    
+    GSTile *tileA;
+    GSTile *tileB;
+    for(int i = 0; i < [tiles count]; i++)
+    {
+        for(int j = (i + 1); j < [tiles count]; j++)
+        {
+            tileA = [tiles objectAtIndex: i];
+            tileB = [tiles objectAtIndex: j];
+            if(tileA.active && tileB.active && tileA.group == tileB.group && [self findPathBetweenTile:tileA andTile:tileB])
+            {
+                if (changeSelection)
+                {
+                    firstTile = tileA;
+                    secondTile = tileB;
+                }
+                return YES;
+            }
+        }
+    }
+    
+    return NO;
+}
+
+- (void)getHint
+{
+    if([self searchForValidTilePathAndChangeSelection:YES])
     {
         [firstTile highlight];
         [secondTile highlight];
         self.waitingOnHint = YES;
-        [[NSRunLoop currentRunLoop] runUntilDate: 
+        [[NSRunLoop currentRunLoop] runUntilDate:
                                         [NSDate dateWithTimeIntervalSinceNow: 2]];
-        tile = secondTile;
+        GSTile *tile = secondTile;
         [firstTile deselect];
         [tile deselect];
         self.waitingOnHint = NO;
@@ -454,9 +481,20 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     [delegate refresh];
 }
 
+- (void)showScoresPostGame:(NSDictionary*)gameData
+{
+    [delegate showHallOfFameWithScores:scores latestScore:gameData];
+    
+    seconds = 0;
+    minutes = 0;
+
+    ignoreScore = NO;
+    
+    [delegate refresh];
+}
+
 - (void)endOfGame
 {
-    NSString *username;
     NSRange topScoreRange = {0, MAX_SCORES};
 
     [self willChangeValueForKey:@"hadEndOfGame"];
@@ -470,7 +508,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 	// First, create a dummy scores entry for checking
     NSMutableDictionary *dummyData = [NSMutableDictionary dictionaryWithCapacity: 3];
 	[dummyData setObject: @"dummy" forKey: @"username"];
-	NSString *entry = [NSString stringWithFormat: @"%i", minutes];
+	__block NSString *entry = [NSString stringWithFormat: @"%i", minutes];
 	[dummyData setObject: entry forKey: @"minutes"];
 	entry = [NSString stringWithFormat: @"%02i", seconds];
 	[dummyData setObject: entry forKey: @"seconds"];
@@ -486,7 +524,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
         return sortScores(obj1, obj2, nil);
     }];
 	
-    NSArray *finalScores;
+    __block NSArray *finalScores;
 	if( [tempScores count] < MAX_SCORES )
 	{
 		finalScores = [tempScores copy];
@@ -499,58 +537,58 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     gameState = GSGameStatePaused;
 	
 	// Are we in the top ten?
-    NSMutableDictionary *gameData = nil;
+    __block NSMutableDictionary *gameData = nil;
 	if( [finalScores containsObject: dummyData] && !ignoreScore )
 	{
-        username = [delegate getUsername];
-        
-        [defaults setValue:username forKey:@"lastUser"];
-        [defaults synchronize];
-		
-		if( !ignoreScore )
-		{
-			// Create a scores entry
-			gameData = [NSMutableDictionary dictionaryWithCapacity: 3];
-			[gameData setObject: username forKey: @"username"];
-			entry = [NSString stringWithFormat: @"%i", minutes];
-			[gameData setObject: entry forKey: @"minutes"];
-			entry = [NSString stringWithFormat: @"%02i", seconds];
-			[gameData setObject: entry forKey: @"seconds"];
-			
-			// Make the new top 10 by taking the old top ten, adding
-			// our score (with proper user name), then taking the top
-			// of that array
-			[scores addObject: gameData];
-			
-			[scores sortUsingFunction:sortScores context:nil];
-			
-			if( [scores count] >= MAX_SCORES )
-			{
-#if TARGET_OS_MACOS && !TARGET_OS_IOS
-                NSArray *oldScores = scores;
-#endif
-				finalScores = [scores subarrayWithRange: topScoreRange];
-				scores = [finalScores mutableCopy];
+        [delegate getUsername:^(NSString *username) {
+            if (username != nil)
+            {
+                [self->defaults setValue:username forKey:@"lastUser"];
+                [self->defaults synchronize];
                 
-#if TARGET_OS_MACOS && !TARGET_OS_IOS
-                [oldScores release];
-				[scores retain];
-#endif
+                if( !self->ignoreScore )
+                {
+                    // Create a scores entry
+                    gameData = [NSMutableDictionary dictionaryWithCapacity: 3];
+                    [gameData setObject: username forKey: @"username"];
+                    entry = [NSString stringWithFormat: @"%i", self->minutes];
+                    [gameData setObject: entry forKey: @"minutes"];
+                    entry = [NSString stringWithFormat: @"%02i", self->seconds];
+                    [gameData setObject: entry forKey: @"seconds"];
+                    
+                    // Make the new top 10 by taking the old top ten, adding
+                    // our score (with proper user name), then taking the top
+                    // of that array
+                    [self->scores addObject: gameData];
+                    
+                    [self->scores sortUsingFunction:sortScores context:nil];
+                    
+                    if( [self->scores count] >= MAX_SCORES )
+                    {
+        #if TARGET_OS_MACOS && !TARGET_OS_IOS
+                        NSArray *oldScores = scores;
+        #endif
+                        finalScores = [self->scores subarrayWithRange: topScoreRange];
+                        self->scores = [finalScores mutableCopy];
+                        
+        #if TARGET_OS_MACOS && !TARGET_OS_IOS
+                        [oldScores release];
+                        [scores retain];
+        #endif
+                    }
+                    
+                    [self->defaults setObject: self->scores forKey: @"scores"];
+                    [self->defaults synchronize];
+                }
             }
-			
-			[defaults setObject: scores forKey: @"scores"];
-			[defaults synchronize];
-		}
+            
+            [self showScoresPostGame:gameData];
+        }];
 	}
-    
-    [delegate showHallOfFameWithScores:scores latestScore:gameData];
-	
-    seconds = 0;
-    minutes = 0;
-
-    ignoreScore = NO;
-    
-    [delegate refresh];
+    else
+    {
+        [self showScoresPostGame:gameData];
+    }
 }
 
 - (void)clearScores

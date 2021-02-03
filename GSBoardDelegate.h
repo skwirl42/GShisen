@@ -12,7 +12,7 @@
 
 @protocol GSBoardDelegate <NSObject>
 
-- (NSString*)getUsername;
+- (void)getUsername:(void (^)(NSString *))usernameCallback;
 - (void)showHallOfFameWithScores:(NSArray*)scores latestScore:(NSDictionary*)gameData;
 - (void)addTile:(GSTile*)tile;
 - (void)removeTile:(GSTile*)tile;

@@ -11,6 +11,9 @@
 		1A31094325C4C1750060A521 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31094225C4C1750060A521 /* AppDelegate.m */; };
 		1A31095625C9ACC00060A521 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1A69191925BC834400407551 /* Localizable.strings */; };
 		1A31095A25C9ACDE0060A521 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1A31095C25C9ACDE0060A521 /* Main.storyboard */; };
+		1A31096225C9EFAD0060A521 /* GSNameDialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096125C9EFAD0060A521 /* GSNameDialogController.m */; };
+		1A31096825CA22EE0060A521 /* GSHallOfFameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096725CA22EE0060A521 /* GSHallOfFameViewController.m */; };
+		1A31096E25CA285E0060A521 /* GSHoFTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096D25CA285E0060A521 /* GSHoFTableViewCell.m */; };
 		1A47F842259CD34E00A4FD2F /* GShisen-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F841259CD34E00A4FD2F /* GShisen-1024.png */; };
 		1A47F846259CD3CC00A4FD2F /* GShisen-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F844259CD3CC00A4FD2F /* GShisen-256.png */; };
 		1A47F847259CD3CC00A4FD2F /* GShisen-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F845259CD3CC00A4FD2F /* GShisen-512.png */; };
@@ -361,6 +364,12 @@
 		1A31094125C4C1750060A521 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1A31094225C4C1750060A521 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		1A31095B25C9ACDE0060A521 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/Main.storyboard; sourceTree = "<group>"; };
+		1A31096025C9EFAD0060A521 /* GSNameDialogController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSNameDialogController.h; path = iOS/GSNameDialogController.h; sourceTree = "<group>"; };
+		1A31096125C9EFAD0060A521 /* GSNameDialogController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSNameDialogController.m; path = iOS/GSNameDialogController.m; sourceTree = "<group>"; };
+		1A31096625CA22EE0060A521 /* GSHallOfFameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSHallOfFameViewController.h; path = iOS/GSHallOfFameViewController.h; sourceTree = "<group>"; };
+		1A31096725CA22EE0060A521 /* GSHallOfFameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSHallOfFameViewController.m; path = iOS/GSHallOfFameViewController.m; sourceTree = "<group>"; };
+		1A31096C25CA285E0060A521 /* GSHoFTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSHoFTableViewCell.h; path = iOS/GSHoFTableViewCell.h; sourceTree = "<group>"; };
+		1A31096D25CA285E0060A521 /* GSHoFTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSHoFTableViewCell.m; path = iOS/GSHoFTableViewCell.m; sourceTree = "<group>"; };
 		1A47F82E259CBC9A00A4FD2F /* GSBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSBoard.h; sourceTree = "<group>"; };
 		1A47F82F259CBC9A00A4FD2F /* GSTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTile.h; sourceTree = "<group>"; };
 		1A47F830259CBC9A00A4FD2F /* gsdialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsdialogs.h; sourceTree = "<group>"; };
@@ -615,6 +624,12 @@
 				1AB6371525BE107500CEE1A5 /* GSTileUIView.m */,
 				1AB6373625BE4D5D00CEE1A5 /* GSUIPageController.h */,
 				1AB6373725BE4D5D00CEE1A5 /* GSUIPageController.m */,
+				1A31096025C9EFAD0060A521 /* GSNameDialogController.h */,
+				1A31096125C9EFAD0060A521 /* GSNameDialogController.m */,
+				1A31096625CA22EE0060A521 /* GSHallOfFameViewController.h */,
+				1A31096725CA22EE0060A521 /* GSHallOfFameViewController.m */,
+				1A31096C25CA285E0060A521 /* GSHoFTableViewCell.h */,
+				1A31096D25CA285E0060A521 /* GSHoFTableViewCell.m */,
 			);
 			name = UIKit;
 			sourceTree = "<group>";
@@ -1060,7 +1075,10 @@
 				1AB6371625BE107500CEE1A5 /* GSTileUIView.m in Sources */,
 				1AB6372025BE231900CEE1A5 /* GSTile.m in Sources */,
 				1A31093D25C4C0CD0060A521 /* main.m in Sources */,
+				1A31096E25CA285E0060A521 /* GSHoFTableViewCell.m in Sources */,
+				1A31096825CA22EE0060A521 /* GSHallOfFameViewController.m in Sources */,
 				1AB6361825BDB58900CEE1A5 /* GSTilePair.m in Sources */,
+				1A31096225C9EFAD0060A521 /* GSNameDialogController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

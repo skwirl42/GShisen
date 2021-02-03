@@ -8,6 +8,7 @@
 #import "GSBoardUIViewController.h"
 #import "GSBoard.h"
 #import "GSTileUIView.h"
+#import "GSNameDialogController.h"
 
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
@@ -15,12 +16,14 @@
 @interface GSBoardUIViewController ()
 {
     NSMutableArray<GSTileUIView*> *tileViews;
+    BOOL isShowingAlert;
 }
 @end
 
 @implementation GSBoardUIViewController
 
 @synthesize board;
+@synthesize onScoreUpdateCallback;
 
 - (void)awakeFromNib
 {
@@ -40,6 +43,7 @@
     undoButton.enabled = NO;
     undoButton.userInteractionEnabled = NO;
     gameOverField.hidden = YES;
+    isShowingAlert = NO;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
@@ -139,12 +143,17 @@
 
 - (void)displayNoMovesDialog
 {
+    if (isShowingAlert)
+    {
+        return;
+    }
+    isShowingAlert = YES;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") message:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"GSButtonTextNewGame", "Text for buttons that will start a new game") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self newGame:self];
     }]];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"GSButtonTextContinue", "Text for buttons that leave the game running (as opposed to a new game, or a quit action)") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}]];
-    [self presentViewController:alert animated:YES completion:^{}];
+    [self presentViewController:alert animated:YES completion:^{ self->isShowingAlert = NO; }];
 }
 
 - (void)endOfGameActions
@@ -152,10 +161,31 @@
     // TODO
 }
 
-- (NSString *)getUsername
+- (void)getUsername:(void (^)(NSString *))usernameCallback
 {
-    // TODO
-    return @"user";
+    isShowingAlert = YES;
+    GSNameDialogController *controller = (GSNameDialogController *)[self.storyboard instantiateViewControllerWithIdentifier:@"GetName"];
+    
+    NSString *lastUser = [defaults valueForKey:@"lastUser"];
+    if (lastUser)
+    {
+        controller.name = lastUser;
+    }
+    
+    controller.completionHandler =
+        ^(GSNameDialogController * _Nonnull finishedDialog)
+        {
+            [self dismissViewControllerAnimated:YES completion:nil];
+            self->isShowingAlert = NO;
+            if (finishedDialog.acceptedName)
+            {
+                usernameCallback(finishedDialog.name);
+            }
+            
+            usernameCallback(nil);
+        };
+    
+    [self presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)refresh
@@ -165,12 +195,18 @@
 
 - (void)showHallOfFameWithScores:(NSArray *)scores latestScore:(NSDictionary *)gameData
 {
-    // TODO
+    if (onScoreUpdateCallback)
+    {
+        onScoreUpdateCallback(scores, gameData, YES);
+    }
 }
 
 - (void)updateScores
 {
-    // TODO
+    if (onScoreUpdateCallback)
+    {
+        onScoreUpdateCallback(board.scores, nil, NO);
+    }
 }
 
 - (GSTile *)createTileWithIcon:(NSString *)icon group:(int)group rndpos:(int)randomPosition isBorderTile:(BOOL)isBorderTile

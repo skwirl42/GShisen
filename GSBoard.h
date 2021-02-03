@@ -38,16 +38,11 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 @property BOOL hadEndOfGame;
 @property BOOL waitingOnHint;
 @property dispatch_block_t endOfGameBlock;
+@property NSArray *scores;
 
 - (id)initialize:(id<GSBoardDelegate>)delegate;
 - (void)newGame;
 - (void)undo;
-- (int)prepareTilesToRemove:(GSTile *)clickedTile;
-- (void)removeCurrentTiles;
-- (BOOL)findPathBetweenTiles;
-- (BOOL)findSimplePathFromX1:(int)x1 y1:(int)y1 toX2:(int)x2 y2:(int)y2;
-- (BOOL)canMakeLineFromX1:(int)x1 y1:(int)y1 toX2:(int)x2 y2:(int)y2;
-- (void)unSetCurrentTiles;
 - (void)pause;
 - (void)setPause:(BOOL)doPause;
 - (void)getHint;
@@ -57,6 +52,10 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (NSArray *)tilesAtY:(int)ypos;
 - (GSTile *)tileAtX:(int)xpos y:(int)ypos;
 - (BOOL)canUndo;
+
+- (int)prepareTilesToRemove:(GSTile *)clickedTile;
+- (void)removeCurrentTiles;
+- (void)unSetCurrentTiles;
 
 - (void)clearScores;
 

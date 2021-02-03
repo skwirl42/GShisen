@@ -8,13 +8,17 @@
 #import "GSUIPageController.h"
 #import "GSBoardUIViewController.h"
 #import "GSBoard.h"
+#import "GSHallOfFameViewController.h"
 
 @interface GSUIPageController ()
 {
+    GSHallOfFameViewController *hallOfFame;
     NSArray<NSString*> *pages;
     NSMutableDictionary<NSString*,UIViewController*> *pageViews;
     NSInteger index;
     NSInteger potentialIndex;
+    NSArray *scores;
+    NSDictionary *userData;
 }
 @end
 
@@ -32,6 +36,14 @@
     [pageViewController setViewControllers:@[[self getControllerForIndex:0]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {}];
     
     boardController = (GSBoardUIViewController*)[self getControllerForIndex:0];
+    boardController.onScoreUpdateCallback = ^(NSArray * scores, NSDictionary * userData, BOOL showHallOfFame) {
+        [self updateScores:scores withUserData:userData];
+        if (showHallOfFame)
+        {
+            self->index = [self->pages indexOfObject:@"HallOfFame"];
+            [self->pageViewController setViewControllers:@[[self getControllerForIndex:self->index]] direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:^(BOOL finished) {}];
+        }
+    };
     index = 0;
 }
 
@@ -47,6 +59,26 @@
     
 }
 
+- (void)updateScores:(NSArray*)scores withUserData:(NSDictionary *)userData
+{
+    if (hallOfFame)
+    {
+        if (userData)
+        {
+            [hallOfFame updateScores:scores withUserData:userData];
+        }
+        else
+        {
+            [hallOfFame updateScores];
+        }
+    }
+    else
+    {
+        self->scores = scores;
+        self->userData = userData;
+    }
+}
+
 - (UIViewController *)getControllerForIndex:(NSUInteger)index
 {
     if ([pageViews objectForKey:pages[index]] != nil)
@@ -57,6 +89,16 @@
     UIStoryboard *storyboard = pageViewController.storyboard;
     UIViewController *newController = [storyboard instantiateViewControllerWithIdentifier:pages[index]];
     [pageViews setObject:newController forKey:pages[index]];
+    
+    if ([newController isKindOfClass:[GSHallOfFameViewController class]])
+    {
+        hallOfFame = (GSHallOfFameViewController*)newController;
+        if (scores)
+        {
+            [hallOfFame updateScores:scores withUserData:userData];
+        }
+    }
+    
     return newController;
 }
 
