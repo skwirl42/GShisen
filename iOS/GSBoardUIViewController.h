@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
     IBOutlet UILabel *gameOverField;
     IBOutlet UIButton *undoButton;
     IBOutlet UIButton *getHintButton;
+    IBOutlet UIPanGestureRecognizer *panRecognizer;
     NSTimer *timer;
     NSUserDefaults *defaults;
 }
@@ -29,6 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (IBAction)pause:(id)sender;
 - (IBAction)getHint:(id)sender;
 - (IBAction)undo:(id)sender;
+
+- (IBAction)scrollUpdate:(id)sender;
 
 @end
 

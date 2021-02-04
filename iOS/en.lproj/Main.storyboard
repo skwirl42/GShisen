@@ -71,6 +71,7 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="rQH-DF-M3h"/>
                         <color key="backgroundColor" systemColor="systemGreenColor"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="lQC-6f-XEh" firstAttribute="centerX" secondItem="tSS-gC-Zug" secondAttribute="centerX" id="1Hi-12-CAA"/>
                             <constraint firstItem="iDp-XA-2aA" firstAttribute="top" secondItem="tSS-gC-Zug" secondAttribute="top" constant="20" symbolic="YES" id="21j-VL-jO3"/>
@@ -88,15 +89,25 @@
                             <constraint firstItem="rYe-wC-dBQ" firstAttribute="top" secondItem="rQH-DF-M3h" secondAttribute="top" id="nkO-4a-Sf6"/>
                             <constraint firstItem="rYe-wC-dBQ" firstAttribute="leading" secondItem="tSS-gC-Zug" secondAttribute="leading" id="rUg-ie-pnO"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="zIt-gg-c9X" appends="YES" id="a5o-j7-L4F"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="gameOverField" destination="rYe-wC-dBQ" id="kvg-wu-sFl"/>
                         <outlet property="getHintButton" destination="A2c-xB-WL4" id="gx8-j3-9se"/>
+                        <outlet property="panRecognizer" destination="zIt-gg-c9X" id="8vf-K2-Bab"/>
                         <outlet property="timeField" destination="iDp-XA-2aA" id="8zf-ua-Ayj"/>
                         <outlet property="undoButton" destination="2WH-E0-eeH" id="CX4-oP-19A"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aZm-yZ-pfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <panGestureRecognizer minimumNumberOfTouches="4" id="zIt-gg-c9X">
+                    <scrollTypes key="allowedScrollTypesMask" continuous="YES"/>
+                    <connections>
+                        <action selector="scrollUpdate:" destination="dMz-Bp-cRD" id="aXA-JS-8im"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-391.0169491525424" y="798.29268292682923"/>
         </scene>

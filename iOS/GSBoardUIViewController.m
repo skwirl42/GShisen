@@ -13,10 +13,14 @@
 #import <Foundation/Foundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 
+#define HINT_GESTURE_MIN_TRANSLATION 100
+
 @interface GSBoardUIViewController ()
 {
     NSMutableArray<GSTileUIView*> *tileViews;
+    GSTilePair *hintPair;
     BOOL isShowingAlert;
+    BOOL inHintGesture;
 }
 @end
 
@@ -126,6 +130,48 @@
 - (IBAction)undo:(id)sender
 {
     [self.board undo];
+}
+
+- (IBAction)scrollUpdate:(id)sender
+{
+    CGPoint translation = [panRecognizer translationInView:self.view];
+    if (!inHintGesture && panRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        inHintGesture = YES;
+        board.waitingOnHint = YES;
+        for (GSTile *tile in [board tiles])
+        {
+            if (tile.active && tile.selected)
+            {
+                [tile deselect];
+            }
+        }
+    }
+    else if (inHintGesture && panRecognizer.state == UIGestureRecognizerStateChanged)
+    {
+        if (translation.y >= HINT_GESTURE_MIN_TRANSLATION)
+        {
+            hintPair = [board getHintPair];
+            [hintPair.firstTile highlight];
+            [hintPair.secondTile highlight];
+        }
+        else if (hintPair)
+        {
+            [hintPair.firstTile deselect];
+            [hintPair.secondTile deselect];
+        }
+    }
+    else if (panRecognizer.state == UIGestureRecognizerStateEnded || panRecognizer.state == UIGestureRecognizerStateCancelled || panRecognizer.state == UIGestureRecognizerStateFailed)
+    {
+        if (hintPair)
+        {
+            [hintPair.firstTile deselect];
+            [hintPair.secondTile deselect];
+        }
+        board.waitingOnHint = NO;
+        inHintGesture = NO;
+        hintPair = nil;
+    }
 }
 
 - (void)addTile:(GSTile *)tile

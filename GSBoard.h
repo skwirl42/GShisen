@@ -12,7 +12,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
     GSGameStateRunning = 1,
 };
 
-#define MAX_SCORES			15
+#define MAX_SCORES			10
 
 @interface GSBoard : NSObject
 {

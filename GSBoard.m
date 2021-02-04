@@ -364,7 +364,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     
     // Check if a move can be made each time a move is made,
     // so we can notify the user that they're chasing ghosts
-    if (![self getHintPair])
+    if (!hadEndOfGame && ![self getHintPair])
     {
         [self->delegate displayNoMovesDialog];
     }
