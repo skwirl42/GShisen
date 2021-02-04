@@ -11,6 +11,9 @@
     GSTile *fTile2;
 }
 
+@property GSTile *firstTile;
+@property GSTile *secondTile;
+
 - (GSTilePair *)initWithTile:(GSTile *)tileOne andTile:(GSTile *)tileTwo;
 - (void)activateTiles;
 

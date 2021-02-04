@@ -3,6 +3,9 @@
 
 @implementation GSTilePair
 
+@synthesize firstTile = fTile1;
+@synthesize secondTile = fTile2;
+
 - (GSTilePair *)initWithTile:(GSTile *)tileOne andTile:(GSTile *)tileTwo
 {
     fTile1 = tileOne;

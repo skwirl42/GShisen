@@ -364,7 +364,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     
     // Check if a move can be made each time a move is made,
     // so we can notify the user that they're chasing ghosts
-    if (![self searchForValidTilePathAndChangeSelection:NO])
+    if (![self getHintPair])
     {
         [self->delegate displayNoMovesDialog];
     }
@@ -395,49 +395,22 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     }
 }
 
-- (BOOL)searchForValidTilePathAndChangeSelection:(BOOL)changeSelection
-{
-    GSTile *tile;
-
-    if (changeSelection)
-    {
-        for(int i = 0; i < [tiles count]; i++)
-        {
-            tile = [tiles objectAtIndex: i];
-            if(changeSelection && tile.active && tile.selected)
-            {
-                [tile deselect];
-            }
-        }
-    }
-    
-    GSTile *tileA;
-    GSTile *tileB;
-    for(int i = 0; i < [tiles count]; i++)
-    {
-        for(int j = (i + 1); j < [tiles count]; j++)
-        {
-            tileA = [tiles objectAtIndex: i];
-            tileB = [tiles objectAtIndex: j];
-            if(tileA.active && tileB.active && tileA.group == tileB.group && [self findPathBetweenTile:tileA andTile:tileB])
-            {
-                if (changeSelection)
-                {
-                    firstTile = tileA;
-                    secondTile = tileB;
-                }
-                return YES;
-            }
-        }
-    }
-    
-    return NO;
-}
-
 - (void)getHint
 {
-    if([self searchForValidTilePathAndChangeSelection:YES])
+    for(int i = 0; i < [tiles count]; i++)
     {
+        GSTile *tile = [tiles objectAtIndex: i];
+        if(tile.active && tile.selected)
+        {
+            [tile deselect];
+        }
+    }
+
+    GSTilePair *hintPair = [self getHintPair];
+    if (hintPair)
+    {
+        firstTile = hintPair.firstTile;
+        secondTile = hintPair.secondTile;
         [firstTile highlight];
         [secondTile highlight];
         self.waitingOnHint = YES;
@@ -452,6 +425,26 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     {
         [delegate displayNoMovesDialog];
     }
+}
+
+- (GSTilePair*)getHintPair
+{
+    GSTile *tileA;
+    GSTile *tileB;
+    for(int i = 0; i < [tiles count]; i++)
+    {
+        for(int j = (i + 1); j < [tiles count]; j++)
+        {
+            tileA = [tiles objectAtIndex: i];
+            tileB = [tiles objectAtIndex: j];
+            if(tileA.active && tileB.active && tileA.group == tileB.group && [self findPathBetweenTile:tileA andTile:tileB])
+            {
+                return [[GSTilePair alloc] initWithTile:tileA andTile:tileB];
+            }
+        }
+    }
+    
+    return nil;
 }
 
 - (void)setPause:(BOOL)doPause

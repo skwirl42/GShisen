@@ -27,6 +27,7 @@
 
 - (void)updateScores
 {
+    userData = nil;
     if ([defaults valueForKey:@"scores"])
     {
         scores = [defaults valueForKey:@"scores"];

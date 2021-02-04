@@ -14,6 +14,12 @@
 		1A31096225C9EFAD0060A521 /* GSNameDialogController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096125C9EFAD0060A521 /* GSNameDialogController.m */; };
 		1A31096825CA22EE0060A521 /* GSHallOfFameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096725CA22EE0060A521 /* GSHallOfFameViewController.m */; };
 		1A31096E25CA285E0060A521 /* GSHoFTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A31096D25CA285E0060A521 /* GSHoFTableViewCell.m */; };
+		1A31097D25CC6D670060A521 /* GShisen-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31097925CC6D670060A521 /* GShisen-152.png */; };
+		1A31097E25CC6D670060A521 /* GShisen-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31097925CC6D670060A521 /* GShisen-152.png */; };
+		1A31097F25CC6D670060A521 /* GShisen-152.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31097925CC6D670060A521 /* GShisen-152.png */; };
+		1A31098425CC6DC70060A521 /* GShisen-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31098325CC6DC70060A521 /* GShisen-167.png */; };
+		1A31098525CC6DC70060A521 /* GShisen-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31098325CC6DC70060A521 /* GShisen-167.png */; };
+		1A31098625CC6DC70060A521 /* GShisen-167.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A31098325CC6DC70060A521 /* GShisen-167.png */; };
 		1A47F842259CD34E00A4FD2F /* GShisen-1024.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F841259CD34E00A4FD2F /* GShisen-1024.png */; };
 		1A47F846259CD3CC00A4FD2F /* GShisen-256.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F844259CD3CC00A4FD2F /* GShisen-256.png */; };
 		1A47F847259CD3CC00A4FD2F /* GShisen-512.png in Resources */ = {isa = PBXBuildFile; fileRef = 1A47F845259CD3CC00A4FD2F /* GShisen-512.png */; };
@@ -370,6 +376,8 @@
 		1A31096725CA22EE0060A521 /* GSHallOfFameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSHallOfFameViewController.m; path = iOS/GSHallOfFameViewController.m; sourceTree = "<group>"; };
 		1A31096C25CA285E0060A521 /* GSHoFTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSHoFTableViewCell.h; path = iOS/GSHoFTableViewCell.h; sourceTree = "<group>"; };
 		1A31096D25CA285E0060A521 /* GSHoFTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSHoFTableViewCell.m; path = iOS/GSHoFTableViewCell.m; sourceTree = "<group>"; };
+		1A31097925CC6D670060A521 /* GShisen-152.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GShisen-152.png"; sourceTree = "<group>"; };
+		1A31098325CC6DC70060A521 /* GShisen-167.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "GShisen-167.png"; sourceTree = "<group>"; };
 		1A47F82E259CBC9A00A4FD2F /* GSBoard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSBoard.h; sourceTree = "<group>"; };
 		1A47F82F259CBC9A00A4FD2F /* GSTile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GSTile.h; sourceTree = "<group>"; };
 		1A47F830259CBC9A00A4FD2F /* gsdialogs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gsdialogs.h; sourceTree = "<group>"; };
@@ -673,6 +681,8 @@
 			isa = PBXGroup;
 			children = (
 				1AF77CA2259D2A5D00A0848C /* Localized */,
+				1A31097925CC6D670060A521 /* GShisen-152.png */,
+				1A31098325CC6DC70060A521 /* GShisen-167.png */,
 				1A47F844259CD3CC00A4FD2F /* GShisen-256.png */,
 				1A47F845259CD3CC00A4FD2F /* GShisen-512.png */,
 				1A47F841259CD34E00A4FD2F /* GShisen-1024.png */,
@@ -810,8 +820,10 @@
 				1A878AA7259BD0FF00B724A0 /* 7-1-h.tiff in Resources */,
 				1A69190F25BC833B00407551 /* gshisen.xib in Resources */,
 				1A878A86259BD0FF00B724A0 /* 9-3.tiff in Resources */,
+				1A31098425CC6DC70060A521 /* GShisen-167.png in Resources */,
 				1A878ABB259BD0FF00B724A0 /* 8-3-h.tiff in Resources */,
 				1A878A87259BD0FF00B724A0 /* 6-2-h.tiff in Resources */,
+				1A31097D25CC6D670060A521 /* GShisen-152.png in Resources */,
 				1A878AB0259BD0FF00B724A0 /* 3-4-h.tiff in Resources */,
 				1A878AB9259BD0FF00B724A0 /* 7-2-h.tiff in Resources */,
 				1A878AAD259BD0FF00B724A0 /* 2-2.tiff in Resources */,
@@ -887,6 +899,7 @@
 				1AB6364F25BDB94B00CEE1A5 /* 4-2.tiff in Resources */,
 				1AB6364B25BDB94B00CEE1A5 /* 5-1-h.tiff in Resources */,
 				1AB6366625BDB94B00CEE1A5 /* 6-4.tiff in Resources */,
+				1A31097E25CC6D670060A521 /* GShisen-152.png in Resources */,
 				1AB6367125BDB94B00CEE1A5 /* 7-1.tiff in Resources */,
 				1AB6366125BDB94B00CEE1A5 /* 2-4-h.tiff in Resources */,
 				1AB6366225BDB94B00CEE1A5 /* 1-2.tiff in Resources */,
@@ -924,6 +937,7 @@
 				1AB6364025BDB94B00CEE1A5 /* 9-4-h.tiff in Resources */,
 				1AB6364A25BDB94B00CEE1A5 /* 4-1-h.tiff in Resources */,
 				1AB6366925BDB94B00CEE1A5 /* 1-4-h.tiff in Resources */,
+				1A31098525CC6DC70060A521 /* GShisen-167.png in Resources */,
 				1AB6368225BDB94B00CEE1A5 /* 1-1-h.tiff in Resources */,
 				1AB6365B25BDB94B00CEE1A5 /* 3-2.tiff in Resources */,
 				1AB6363F25BDB94B00CEE1A5 /* 9-1.tiff in Resources */,
@@ -1012,6 +1026,7 @@
 				1AB6368A25BDB94B00CEE1A5 /* 4-3.tiff in Resources */,
 				1AB6362825BDB5A600CEE1A5 /* InfoPlist.strings in Resources */,
 				1AB636C425BDB94B00CEE1A5 /* 7-3.tiff in Resources */,
+				1A31097F25CC6D670060A521 /* GShisen-152.png in Resources */,
 				1AB636CB25BDB94B00CEE1A5 /* 6-2.tiff in Resources */,
 				1AB6369825BDB94B00CEE1A5 /* 4-1-h.tiff in Resources */,
 				1AB636A425BDB94B00CEE1A5 /* 2-4.tiff in Resources */,
@@ -1030,6 +1045,7 @@
 				1AB6369425BDB94B00CEE1A5 /* 7-3-h.tiff in Resources */,
 				1AB6369025BDB94B00CEE1A5 /* 4-4-h.tiff in Resources */,
 				1AB636CA25BDB94B00CEE1A5 /* 3-3-h.tiff in Resources */,
+				1A31098625CC6DC70060A521 /* GShisen-167.png in Resources */,
 				1AB6369A25BDB94B00CEE1A5 /* 5-4.tiff in Resources */,
 				1AB6369E25BDB94B00CEE1A5 /* 6-3-h.tiff in Resources */,
 				1AB6369225BDB94B00CEE1A5 /* 8-4-h.tiff in Resources */,
@@ -1514,7 +1530,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1588,7 +1604,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1662,7 +1678,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iOS/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

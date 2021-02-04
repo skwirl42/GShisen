@@ -18,7 +18,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 {
     id<GSBoardDelegate> delegate;
 	NSUserDefaults *defaults;
-	NSMutableArray *scores;
+	NSMutableArray* scores;
 	NSArray<NSString*> *iconsNamesRefs;
 	NSMutableArray<GSTile*> *tiles;
     GSTile *firstTile;
@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 @property BOOL hadEndOfGame;
 @property BOOL waitingOnHint;
 @property dispatch_block_t endOfGameBlock;
-@property NSArray *scores;
+@property (strong) NSArray *scores;
 
 - (id)initialize:(id<GSBoardDelegate>)delegate;
 - (void)newGame;
@@ -46,6 +46,7 @@ typedef NS_ENUM(NSInteger, GSGameState) {
 - (void)pause;
 - (void)setPause:(BOOL)doPause;
 - (void)getHint;
+- (GSTilePair*)getHintPair;
 - (void)verifyEndOfGame;
 - (void)endOfGame;
 - (NSArray *)tilesAtX:(int)xpos;

@@ -25,7 +25,14 @@
     nameLabel.text = name;
     timeLabel.text = time;
     
-    self.backgroundColor = highlight ? [UIColor lightGrayColor] : [UIColor systemBackgroundColor];
+    if (@available(iOS 13.0, *))
+    {
+        self.backgroundColor = highlight ? [UIColor lightGrayColor] : [UIColor systemBackgroundColor];
+    }
+    else
+    {
+        self.backgroundColor = highlight ? [UIColor lightGrayColor] : [UIColor whiteColor];
+    }
 }
 
 @end
