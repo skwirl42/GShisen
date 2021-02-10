@@ -17,7 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property NSString *name;
 @property BOOL acceptedName;
-@property void (^completionHandler)(GSNameDialogController*);
+@property (copy) void (^completionHandler)(GSNameDialogController*);
 
 - (IBAction)hitOk:(id)sender;
 - (IBAction)hitCancel:(id)sender;

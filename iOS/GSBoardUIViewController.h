@@ -24,9 +24,9 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 @property (strong) GSBoard *board;
-@property void(^onScoreUpdateCallback)(NSArray*, NSDictionary* _Nullable, BOOL);
+@property (copy) void(^onScoreUpdateCallback)(NSArray*, NSDictionary* _Nullable, BOOL);
 
-- (IBAction)newGame:(id)sender;
+- (IBAction)newGame:(_Nullable id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)getHint:(id)sender;
 - (IBAction)undo:(id)sender;

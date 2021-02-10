@@ -10,6 +10,7 @@
 typedef NS_ENUM(NSInteger, GSGameState) {
     GSGameStatePaused = 0,
     GSGameStateRunning = 1,
+    GSGameStateFinished = 2,
 };
 
 #define MAX_SCORES			10

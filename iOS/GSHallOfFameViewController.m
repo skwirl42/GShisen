@@ -18,11 +18,26 @@
 
 @implementation GSHallOfFameViewController
 
+@synthesize onNewGame;
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     defaults = [NSUserDefaults standardUserDefaults];
     [self updateScores];
+}
+
+- (void)gameStateUpdated:(GSGameState)newState
+{
+    newGameButton.hidden = newState != GSGameStateFinished;
+}
+
+- (IBAction)newGame:(id)sender
+{
+    if (onNewGame)
+    {
+        onNewGame();
+    }
 }
 
 - (void)updateScores

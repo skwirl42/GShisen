@@ -66,7 +66,6 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     seconds = 0;
     minutes = 0;
     tiles = nil;
-    gameState = GSGameStatePaused;
     iconsNamesRefs = [[NSArray<NSString*> alloc] initWithObjects:@"1-1", @"1-2", @"1-3", @"1-4", @"2-1", @"2-2", @"2-3", @"2-4",
                                                                   @"3-1", @"3-2", @"3-3", @"3-4", @"4-1", @"4-2", @"4-3", @"4-4",
                                                                   @"5-1", @"5-2", @"5-3", @"5-4", @"6-1", @"6-2", @"6-3", @"6-4",
@@ -90,6 +89,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     [scores retain];
 #endif
             
+    gameState = GSGameStateFinished;
     hadEndOfGame = NO;
     ignoreScore = NO;
     undoArray = nil;
@@ -222,9 +222,13 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     [self willChangeValueForKey:@"hadEndOfGame"];
     hadEndOfGame = NO;
     [self didChangeValueForKey:@"hadEndOfGame"];
+
     [self willChangeValueForKey:@"canUndo"];
     [self didChangeValueForKey:@"canUndo"];
+
+    [self willChangeValueForKey:@"gameState"];
     gameState = GSGameStateRunning;
+    [self didChangeValueForKey:@"gameState"];
 }
 
 - (int)prepareTilesToRemove:(GSTile *)clickedTile
@@ -454,6 +458,7 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
         return;
     }
     
+    [self willChangeValueForKey:@"gameState"];
     if (doPause && gameState == GSGameStateRunning)
     {
         gameState = GSGameStatePaused;
@@ -462,15 +467,19 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     {
         gameState = GSGameStateRunning;
     }
+    [self didChangeValueForKey:@"gameState"];
 }
 
 - (void)pause
 {
+    [self willChangeValueForKey:@"gameState"];
     if(gameState == GSGameStatePaused) {
         gameState = GSGameStateRunning;
     } else if(gameState == GSGameStateRunning) {
         gameState = GSGameStatePaused;
     }
+    [self didChangeValueForKey:@"gameState"];
+    
     [delegate refresh];
 }
 
@@ -493,6 +502,11 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
     [self willChangeValueForKey:@"hadEndOfGame"];
     hadEndOfGame = YES;
     [self didChangeValueForKey:@"hadEndOfGame"];
+
+    [self willChangeValueForKey:@"gameState"];
+    gameState = GSGameStateFinished;
+    [self didChangeValueForKey:@"gameState"];
+
     [self willChangeValueForKey:@"canUndo"];
     [self didChangeValueForKey:@"canUndo"];
 
@@ -526,8 +540,6 @@ static NSComparisonResult sortScores(id o1, id o2, void *context)
 	{
 		finalScores = [tempScores subarrayWithRange: topScoreRange];
 	}
-	
-    gameState = GSGameStatePaused;
 	
 	// Are we in the top ten?
     __block NSMutableDictionary *gameData = nil;

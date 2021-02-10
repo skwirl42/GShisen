@@ -33,8 +33,6 @@
 {
     [super awakeFromNib];
     
-//    [self.view setFrame:self.view.window.frame];
-    
     defaults = [NSUserDefaults standardUserDefaults];
     tileViews = [[NSMutableArray<GSTileUIView*> alloc] init];
     

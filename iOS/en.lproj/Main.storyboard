@@ -102,7 +102,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aZm-yZ-pfa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-                <panGestureRecognizer minimumNumberOfTouches="4" id="zIt-gg-c9X">
+                <panGestureRecognizer minimumNumberOfTouches="2" maximumNumberOfTouches="2" id="zIt-gg-c9X">
                     <scrollTypes key="allowedScrollTypesMask" continuous="YES"/>
                     <connections>
                         <action selector="scrollUpdate:" destination="dMz-Bp-cRD" id="aXA-JS-8im"/>
@@ -132,7 +132,6 @@
         <!--GetName-->
         <scene sceneID="cEQ-w0-crG">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HTy-CN-JNi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="GetName" title="GetName" modalPresentationStyle="formSheet" useStoryboardIdentifierAsRestorationIdentifier="YES" id="E27-7S-WBk" customClass="GSNameDialogController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8Ov-mn-ooz">
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
@@ -196,6 +195,7 @@
                         <outlet property="nameField" destination="KrI-6g-NKL" id="J48-zm-XIq"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HTy-CN-JNi" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="16.779661016949152" y="63.658536585365852"/>
         </scene>
@@ -247,7 +247,7 @@
                                 <size key="shadowOffset" width="6" height="5"/>
                             </label>
                             <tableView opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="aIq-zO-B6U">
-                                <rect key="frame" x="215" y="152" width="750" height="648"/>
+                                <rect key="frame" x="215" y="152" width="750" height="516"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="hofTableCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="hofTableCell" id="9J4-LB-VP2" customClass="GSHoFTableViewCell">
@@ -290,21 +290,31 @@
                                     <outlet property="dataSource" destination="Izw-VJ-kd8" id="N89-hd-H98"/>
                                 </connections>
                             </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="fill" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qM0-55-iJO">
+                                <rect key="frame" x="548" y="676" width="84" height="33"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <state key="normal" title="New Game"/>
+                                <connections>
+                                    <action selector="newGame:" destination="udd-ng-Hog" eventType="touchUpInside" id="Sc1-Qw-6tu"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="Hb0-no-YaD"/>
                         <color key="backgroundColor" systemColor="systemGreenColor"/>
                         <constraints>
+                            <constraint firstItem="qM0-55-iJO" firstAttribute="centerX" secondItem="aIq-zO-B6U" secondAttribute="centerX" id="6jE-q9-Hen"/>
                             <constraint firstItem="fRJ-lG-Mgd" firstAttribute="top" secondItem="Hb0-no-YaD" secondAttribute="top" constant="20" id="CK6-3Z-s99"/>
                             <constraint firstItem="fRJ-lG-Mgd" firstAttribute="leading" secondItem="Hb0-no-YaD" secondAttribute="leading" id="D26-Tq-PSN"/>
-                            <constraint firstItem="fRJ-lG-Mgd" firstAttribute="centerX" secondItem="aIq-zO-B6U" secondAttribute="centerX" id="IMd-WG-J9y"/>
-                            <constraint firstItem="Hb0-no-YaD" firstAttribute="bottom" secondItem="aIq-zO-B6U" secondAttribute="bottom" id="Oor-8F-KHE"/>
-                            <constraint firstItem="aIq-zO-B6U" firstAttribute="top" secondItem="fRJ-lG-Mgd" secondAttribute="bottom" constant="8" id="R7c-07-GFY"/>
-                            <constraint firstItem="aIq-zO-B6U" firstAttribute="leading" secondItem="Hb0-no-YaD" secondAttribute="leading" constant="215" id="cKg-MS-daZ"/>
-                            <constraint firstItem="aIq-zO-B6U" firstAttribute="centerY" secondItem="xcd-An-dt2" secondAttribute="centerY" constant="66" id="i5q-kL-kO7"/>
+                            <constraint firstItem="aIq-zO-B6U" firstAttribute="leading" secondItem="Hb0-no-YaD" secondAttribute="leading" constant="215" id="Iop-iN-Nkx"/>
+                            <constraint firstItem="qM0-55-iJO" firstAttribute="top" secondItem="aIq-zO-B6U" secondAttribute="bottom" constant="8" symbolic="YES" id="RqF-kh-rqo"/>
+                            <constraint firstItem="aIq-zO-B6U" firstAttribute="centerY" secondItem="xcd-An-dt2" secondAttribute="centerY" id="W1G-AP-Wtd"/>
+                            <constraint firstItem="aIq-zO-B6U" firstAttribute="top" secondItem="fRJ-lG-Mgd" secondAttribute="bottom" constant="8" id="a8d-AN-1A4"/>
+                            <constraint firstItem="aIq-zO-B6U" firstAttribute="centerX" secondItem="fRJ-lG-Mgd" secondAttribute="centerX" id="vBb-4r-SSG"/>
                             <constraint firstItem="fRJ-lG-Mgd" firstAttribute="centerX" secondItem="xcd-An-dt2" secondAttribute="centerX" id="wcg-BQ-pWR"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="newGameButton" destination="qM0-55-iJO" id="ssL-pH-hwv"/>
                         <outlet property="scoreTable" destination="aIq-zO-B6U" id="pKo-eq-iK7"/>
                     </connections>
                 </viewController>

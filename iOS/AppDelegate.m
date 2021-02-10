@@ -19,22 +19,22 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    [pageController gainedActive];
+    [pageController gainedActive:YES];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    [pageController lostActive];
+    [pageController lostActive:YES];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    [pageController gainedActive];
+    [pageController gainedActive:NO];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    [pageController lostActive];
+    [pageController lostActive:NO];
 }
 
 - (IBAction)newGame:(id)sender

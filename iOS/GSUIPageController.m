@@ -45,16 +45,29 @@
         }
     };
     index = 0;
+    
+    [boardController.board addObserver:self forKeyPath:@"gameState" options:NSKeyValueObservingOptionNew context:nil];
 }
 
-- (void)lostActive
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context
 {
-    index = 1;
-    [pageViewController setViewControllers:@[[self getControllerForIndex:index]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {}];
-    [boardController.board setPause:YES];
+    if ([keyPath isEqualToString:@"gameState"] && hallOfFame)
+    {
+        [hallOfFame gameStateUpdated:boardController.board.gameState];
+    }
 }
 
-- (void)gainedActive
+- (void)lostActive:(BOOL)isIntoBackground
+{
+    if (isIntoBackground)
+    {
+        index = 1;
+        [pageViewController setViewControllers:@[[self getControllerForIndex:index]] direction:UIPageViewControllerNavigationDirectionForward animated:NO completion:^(BOOL finished) {}];
+        [boardController.board setPause:YES];
+    }
+}
+
+- (void)gainedActive:(BOOL)isIntoBackground
 {
     
 }
@@ -97,6 +110,16 @@
         {
             [hallOfFame updateScores:scores withUserData:userData];
         }
+        [hallOfFame gameStateUpdated:boardController.board.gameState];
+        
+        __block GSBoardUIViewController *board = boardController;
+        __block UIPageViewController *thePageViewController = pageViewController;
+        hallOfFame.onNewGame = ^{
+            [thePageViewController setViewControllers:@[board] direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:^(BOOL finished)
+            {
+                [board newGame:nil];
+            }];
+        };
     }
     
     return newController;

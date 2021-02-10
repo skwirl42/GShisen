@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak) GSBoardUIViewController *boardController;
 
-- (void)lostActive;
-- (void)gainedActive;
+- (void)lostActive:(BOOL)isIntoBackground;
+- (void)gainedActive:(BOOL)isIntoBackground;
 
 @end
 
