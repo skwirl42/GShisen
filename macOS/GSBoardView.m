@@ -121,6 +121,10 @@
     if (!self.shisenBoard.hadEndOfGame)
     {
         [self.shisenBoard pause];
+        for (GSTileView *tileView in tileViews)
+        {
+            tileView.hidden = shisenBoard.gameState == GSGameStatePaused;
+        }
         [self setNeedsDisplay:YES];
     }
 }

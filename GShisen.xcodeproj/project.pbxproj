@@ -392,14 +392,12 @@
 		1A69191B25BC837500407551 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/gshisen.xib; sourceTree = "<group>"; };
 		1A878A60259BCFF100B724A0 /* GShisenmacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisenmacOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A878A65259BCFF300B724A0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		1A878A6D259BCFF300B724A0 /* GShisenmacOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GShisenmacOS.entitlements; sourceTree = "<group>"; };
 		1AB635E325BDB50C00CEE1A5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1AB635E825BDB50C00CEE1A5 /* GShisen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB635EA25BDB50C00CEE1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB635EF25BDB50C00CEE1A5 /* GShisen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GShisen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AB635F125BDB50C00CEE1A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1AB635F225BDB50C00CEE1A5 /* macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = macOS.entitlements; sourceTree = "<group>"; };
-		1AB6360725BDB53000CEE1A5 /* GShisen.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = GShisen.entitlements; sourceTree = "<group>"; };
 		1AB636D825BDBBD200CEE1A5 /* GSBoardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GSBoardView.h; path = macOS/GSBoardView.h; sourceTree = "<group>"; };
 		1AB636D925BDBBD200CEE1A5 /* GSBoardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = GSBoardView.m; path = macOS/GSBoardView.m; sourceTree = "<group>"; };
 		1AB636DF25BDCFA000CEE1A5 /* GSBoardDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GSBoardDelegate.h; sourceTree = "<group>"; };
@@ -578,7 +576,6 @@
 			isa = PBXGroup;
 			children = (
 				1A878A65259BCFF300B724A0 /* Assets.xcassets */,
-				1A878A6D259BCFF300B724A0 /* GShisenmacOS.entitlements */,
 			);
 			path = GShisenmacOS;
 			sourceTree = "<group>";
@@ -655,7 +652,6 @@
 		29B97314FDCFA39411CA2CEA /* GShisen */ = {
 			isa = PBXGroup;
 			children = (
-				1AB6360725BDB53000CEE1A5 /* GShisen.entitlements */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,

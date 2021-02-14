@@ -7,12 +7,12 @@
 
 @interface GSTilePair : NSObject
 {
-    GSTile *fTile1;
-    GSTile *fTile2;
+    GSTile __weak *fTile1;
+    GSTile __weak *fTile2;
 }
 
-@property GSTile *firstTile;
-@property GSTile *secondTile;
+@property (weak) GSTile *firstTile;
+@property (weak) GSTile *secondTile;
 
 - (GSTilePair *)initWithTile:(GSTile *)tileOne andTile:(GSTile *)tileTwo;
 - (void)activateTiles;

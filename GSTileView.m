@@ -20,11 +20,7 @@
 
 @synthesize tile;
 
-- (id)initOnBoard:(GSBoard *)aboard
-             iconRef:(NSString *)ref
-                 group:(int)grp
-              rndpos:(int)rnd
-      isBorderTile:(BOOL)btile
+- (id)initOnBoard:(GSBoard *)aboard iconRef:(NSString *)ref group:(int)grp rndpos:(int)rnd isBorderTile:(BOOL)btile
 {
     self = [super init];
     if (self)

@@ -192,7 +192,7 @@
         return;
     }
     isShowingAlert = YES;
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") message:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"GSAlertMessageTextNoMoreMoves", "No moves are possible") message:NSLocalizedString(@"GSAlertMessageDescriptionNoMoreMoves", "No moves are possible") preferredStyle:UIAlertControllerStyleAlert];
     [alert addAction:[UIAlertAction actionWithTitle:NSLocalizedString(@"GSButtonTextNewGame", "Text for buttons that will start a new game") style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self newGame:self];
     }]];
